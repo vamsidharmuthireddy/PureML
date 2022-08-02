@@ -37,8 +37,13 @@ class Trainer(BaseModel):
         self.model.fit(self.data, self.label)
 
 
-    def predict(self, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15):
-        row = [[a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15]]
+    # def predict(self, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15):
+    #     row = [[a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, a15]]
+    def predict(self, *row):
+        print(row)
+        # row = row.values()
+        row = [row]
+
         prediction = self.model.predict(row)
         prediction = prediction[0]
         print(prediction)
