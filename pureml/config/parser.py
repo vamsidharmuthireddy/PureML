@@ -18,6 +18,11 @@ class Config(BaseModel):
     data_path: typing.Any = None
     project_folder: typing.Any = None
 
+    engine: str = None
+    model: str = None
+    model_parameters: typing.Any = None
+
+
 
     def create_config(self, project, label, data):
         config_dict = OrderedDict()
@@ -64,6 +69,17 @@ class Config(BaseModel):
 
 
         self.label_header = self.config['Output paramters']['name']
+
+        if 'trainer' in self.config.keys():
+            if 'engine' in self.config['trainer'].keys():
+                self.engine = self.config['trainer']['engine']
+
+            if 'model' in self.config['trainer'].keys():
+                if 'name' in self.config['trainer']['model'].keys():
+                    self.model = self.config['trainer']['model']['name']
+
+                if 'parameters' in self.config['trainer']['model'].keys():
+                    self.model_parameters = self.config['trainer']['model']['parameters']
 
 
     def generate_config(self):

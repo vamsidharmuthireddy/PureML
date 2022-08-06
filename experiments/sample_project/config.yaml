@@ -1,0 +1,47 @@
+Input paramters:
+- name: Sl. No
+  type: int64
+- name: A
+  type: int64
+- name: B
+  type: int64
+- name: C
+  type: int64
+- name: D
+  type: int64
+- name: E
+  type: int64
+- name: F
+  type: int64
+- name: G
+  type: int64
+- name: H
+  type: int64
+- name: I
+  type: int64
+- name: J
+  type: int64
+- name: K
+  type: int64
+- name: L
+  type: int64
+- name: M
+  type: int64
+- name: N
+  type: int64
+- name: O
+  type: int64
+Organization:
+  data:
+    format: parquet
+    name: sample_data
+    path: /media/vamsidhar/HDD/aztlan/engageml/client_data/indiamart/data_pruned.parquet
+    type: url
+  project:
+    name: sample_project
+    version: 1
+  token: sample
+Output paramters:
+  name: A
+  type: binary
+Version: 0.1

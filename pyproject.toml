@@ -4,6 +4,8 @@ version = "0.1.0"
 description = ""
 authors = ["vamsidhar muthireddy <vamsi.muthireddy@gmail.com>"]
 
+
+
 [tool.poetry.dependencies]
 python = "^3.10 <3.11"
 PyYAML = "^6.0"
@@ -15,6 +17,9 @@ scikit-learn = "^1.1.1"
 fastparquet = "^0.8.1"
 pyarrow = "^8.0.0"
 typer = "^0.6.1"
+lightgbm = "^3.3.2"
+xgboost = "^1.6.1"
+catboost = "^1.0.6"
 
 
 [tool.poetry.scripts]
