@@ -1,4 +1,4 @@
-# from engageml.optimizers.optimize import Optimizer
+from pureml.optimizer.optimize import Optimizer
 from sklearn.base import clone
 import random
 import numpy as np
@@ -80,6 +80,14 @@ class ModelBase():
         #     data = self.data_train
         # if label is None:
         #     label = self.label_train
+        # print(self.model_parameters)
+
+        if callable(self.model):  
+            default_params = self.construct_params_default(params=self.model_parameters) 
+            self.model_callable = clone(self.model, safe=False)  
+            self.model = self.model(**default_params)
+            logger.debug('Model callable is constructed with default parameters')
+        
         try:
             
             self.optimizer = Optimizer(model=self.model_callable, random_state=self.random_state,

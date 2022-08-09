@@ -19,6 +19,7 @@ class Trainer(BaseModel):
     engine: str = None
     model: str = None
     model_parameters: typing.Any = None
+    optimize: bool = False
 
     app: typing.Any = None
     prediction_model : typing.Any = None
@@ -44,7 +45,15 @@ class Trainer(BaseModel):
             print('Please provide model to be trained')
         else:
             self.model = Models_sklearn().models_all[self.model]
-            self.model.fit(self.data, self.label)
+
+            self.model.data_train = self.data
+            self.model.label_train = self.label
+            self.model.data_test = self.data
+            self.model.label_test = self.label
+
+            if self.optimize:
+                self.model.optimize(log=True)
+            self.model.fit()
             print('Model is trained')
 
             joblib.dump(self.model, os.path.join(self.project_path, 'model.pkl'))

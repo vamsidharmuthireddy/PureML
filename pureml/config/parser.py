@@ -21,6 +21,7 @@ class Config(BaseModel):
     engine: str = None
     model: str = None
     model_parameters: typing.Any = None
+    optimize: str = None
 
 
 
@@ -80,6 +81,13 @@ class Config(BaseModel):
 
                 if 'parameters' in self.config['trainer']['model'].keys():
                     self.model_parameters = self.config['trainer']['model']['parameters']
+
+
+        if 'optimizer' in self.config.keys():
+            if 'name' in self.config['optimizer'].keys():
+                name = self.config['optimizer']['name']
+                if name == 'optuna':
+                    self.optimize = True
 
 
     def generate_config(self):

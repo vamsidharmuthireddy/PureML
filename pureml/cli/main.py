@@ -39,7 +39,8 @@ def train(project : str = typer.Option(..., '--project')):
     config.load_config()
     
     trainer = Trainer(label_header=config.label_header, data_path=config.data_path, project_path=config.project_folder, 
-                        engine=config.engine, model=config.model, model_parameters=config.model_parameters)
+                        engine=config.engine, model=config.model, model_parameters=config.model_parameters,
+                        optimize=config.optimize)
 
     trainer.load_data()
 

@@ -23,3 +23,6 @@ trainer:
     name: RandomForestClassifier
     parameters:
       ramdom_state : 44
+
+optimizer:
+  name: optuna

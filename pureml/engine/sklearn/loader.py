@@ -46,7 +46,7 @@ class Models_sklearn():
     random_state: int
         This is where we store random_state
     '''
-    def __init__(self, problem_type='classification', random_state=42):
+    def __init__(self, problem_type='classification', random_state=44):
         
         # self.model_single = {}
         # self.model_ensemble = {}
@@ -56,15 +56,9 @@ class Models_sklearn():
         
         self.models_all = {}
         self.random_state = random_state
-        
-        # self.save_folder = 'results/models'
-        
                 
         self.init_seed()
         
-        
-        # if initialize:
-            # self.create_folders()
         self.initialize_models()
 
             
