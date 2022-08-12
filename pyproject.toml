@@ -21,6 +21,7 @@ lightgbm = "^3.3.2"
 xgboost = "^1.6.1"
 catboost = "^1.0.6"
 optuna = "^2.10.1"
+mlflow = "^1.28.0"
 
 
 [tool.poetry.scripts]
