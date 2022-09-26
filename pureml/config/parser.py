@@ -8,7 +8,7 @@ import os
 from collections import OrderedDict, defaultdict
 
 class Config(BaseModel):
-    config_path: str = None
+    config_path: str = './pureml.yaml'
     config: dict = None
 
     input_parameters: typing.Any = None
@@ -22,6 +22,8 @@ class Config(BaseModel):
     model: str = None
     model_parameters: typing.Any = None
     optimize: str = None
+
+    integrations: dict = None
 
 
 
@@ -64,30 +66,39 @@ class Config(BaseModel):
     def load_config(self):
         self.config = yaml.load(open(self.config_path, 'r'), Loader=yaml.SafeLoader)
 
-        self.data_path = self.config['Organization']['data']['path']
+        # self.data_path = self.config['Organization']['data']['path']
         self.project_folder = self.config['Organization']['project']['name']
-        os.makedirs(self.project_folder, exist_ok=True)
+        # os.makedirs(self.project_folder, exist_ok=True)
 
 
-        self.label_header = self.config['Output paramters']['name']
+        # self.label_header = self.config['Output paramters']['name']
 
-        if 'trainer' in self.config.keys():
-            if 'engine' in self.config['trainer'].keys():
-                self.engine = self.config['trainer']['engine']
+        # if 'trainer' in self.config.keys():
+        #     if 'engine' in self.config['trainer'].keys():
+        #         self.engine = self.config['trainer']['engine']
 
-            if 'model' in self.config['trainer'].keys():
-                if 'name' in self.config['trainer']['model'].keys():
-                    self.model = self.config['trainer']['model']['name']
+        #     if 'model' in self.config['trainer'].keys():
+        #         if 'name' in self.config['trainer']['model'].keys():
+        #             self.model = self.config['trainer']['model']['name']
 
-                if 'parameters' in self.config['trainer']['model'].keys():
-                    self.model_parameters = self.config['trainer']['model']['parameters']
+        #         if 'parameters' in self.config['trainer']['model'].keys():
+        #             self.model_parameters = self.config['trainer']['model']['parameters']
 
 
-        if 'optimizer' in self.config.keys():
-            if 'name' in self.config['optimizer'].keys():
-                name = self.config['optimizer']['name']
-                if name == 'optuna':
-                    self.optimize = True
+        # if 'optimizer' in self.config.keys():
+        #     if 'name' in self.config['optimizer'].keys():
+        #         name = self.config['optimizer']['name']
+        #         if name == 'optuna':
+        #             self.optimize = True
+
+
+        self.load_integrations()        
+
+    def load_integrations(self):
+        if 'integrations' in self.config.keys():
+            self.integrations = self.config['integrations']
+            # if 'experiment' in integrations.keys():
+        
 
 
     def generate_config(self):
