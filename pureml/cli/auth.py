@@ -6,6 +6,10 @@ import requests
 import typer
 from rich import print
 from rich.syntax import Syntax
+from . import BASE_URL
+
+from urllib.parse import urljoin
+
 
 app = typer.Typer()
 
@@ -27,14 +31,23 @@ def signup():
     print("\n[bold]Create a new account[/bold]\n")
     email: str = typer.prompt("Enter new email")
     password: str = typer.prompt("Enter new password", confirmation_prompt=True, hide_input=True)
+    # organization_id: str = typer.prompt("Enter Organization id")
+    # data = {"email": email, "password": password, "org": organization_id}
     data = {"email": email, "password": password}
-    # response = requests.post("http://localhost:8000/cli/auth/signup",json=data)
-    response = requests.post("http://localhost:3000/user/signup",json=data)
+
+
+    url_path_1 = 'user/signup'
+    url = urljoin(BASE_URL, url_path_1)
+
+    response = requests.post(url,json=data)
+
+
+
     # print(response.text)
     if not response.ok:
         print(f"[bold red]Could not create account! Please try again later")
         return
-    print(f"[bold green]Successfully created your account! You can now login using ```pureml-cli auth login```")
+    print(f"[bold green]Successfully created your account! You can now login using ```pure auth login```")
 
 @app.command()
 def login():
@@ -42,8 +55,12 @@ def login():
     email: str = typer.prompt("Enter your email")
     password: str = typer.prompt("Enter your password", hide_input=True)
     data = {"email": email, "password": password}
-    # response = requests.post("http://localhost:8000/cli/auth/login",json=data)
-    response = requests.post("http://localhost:3000/user/login",json=data)
+
+
+    url_path_1 = 'user/login'
+    url = urljoin(BASE_URL, url_path_1)
+
+    response = requests.post(url,json=data)
     # print(response.text)
     if not response.ok:
         print(f"[bold red]Could not login! Please try again later")

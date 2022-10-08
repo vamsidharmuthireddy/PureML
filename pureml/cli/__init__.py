@@ -3,9 +3,12 @@ import os, json
 
 PATH_PURE_DIR = '.pureml'
 PATH_ARTIFACT_DIR = '.pureml/artifacts'
+PATH_DATASET_DIR = '.pureml/dataset'
 PATH_USER_TOKEN = '~/.pureml/token'
 PATH_USER_PROJECT = '.pureml/pure.project'
-BASE_URL = 'http://localhost:3000'
+# BASE_URL = 'http://localhost:3000'
+BASE_URL = 'https://api.pureml.com'
+
 
 def get_token():
     '''It checks if the token exists in the user's home directory. If it does, it returns the token. If it
@@ -39,6 +42,36 @@ def get_token():
         return
     
     
+
+def get_org_id():
+    '''It checks if the org exists in the user's home directory. If it does, it returns the org. If it
+    doesn't, it returns None
+    
+    Returns
+    -------
+        The org is being returned.
+    
+    '''
+    path = PATH_USER_TOKEN
+
+    path = os.path.expanduser(path)
+
+    if os.path.exists(path):
+        creds = open(path, "r").read()
+
+        creds_json = json.loads(creds)
+
+        org_id = creds_json['email']
+        print(f"[bold green]Organization exists!")
+
+        # print(org_id)
+        return org_id
+    else:
+        print(f"[bold red]Organization token doesnot exist! Please login")
+
+        return
+
+
 
 def get_project_id():
     '''It checks if the project file exists in the current directory. If it does, it reads the project file

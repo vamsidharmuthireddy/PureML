@@ -8,21 +8,42 @@ import os
 import json
 
 
-from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_PURE_DIR
-from pureml import save_model, load_model
+from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_DATASET_DIR
 from urllib.parse import urljoin
 import joblib
+import pandas as pd
+
 
 app = typer.Typer()
 
 
+
+def save_dataset(dataset:pd.DataFrame, name:str):
+    file_name = '.'.join([name, 'parquet'])
+    save_path = os.path.join(PATH_DATASET_DIR, file_name)
+
+
+    os.makedirs(PATH_DATASET_DIR, exist_ok=True)
+
+    dataset.to_parquet(save_path)
+
+    
+    return save_path
+
+
+
+
+
+
+
+
 @app.command()
 def list():
-    '''This function will return a list of all the models in the project
+    '''This function will return a list of all the datasets in the project
     
     Returns
     -------
-        A list of all the models in the project
+        A list of all the datasets in the project
     
     '''
 
@@ -30,7 +51,7 @@ def list():
     org_id = get_org_id()
     project_id = get_project_id()
 
-    url_path_1 = '{}/project/{}/models'.format(org_id, project_id)
+    url_path_1 = '{}/project/{}/datasets'.format(org_id, project_id)
     url = urljoin(BASE_URL, url_path_1)
     
     data = {"project_id": project_id}
@@ -44,10 +65,10 @@ def list():
     response = requests.get(url,data=data, headers=headers)
     # print(response.text)
     if response.status_code == 200:
-        print(f"[bold green]Obtained list of models")
+        print(f"[bold green]Obtained list of datasets")
         print(response.text)
     else:
-        print(f"[bold red]Unable to obtain the list of models!")
+        print(f"[bold red]Unable to obtain the list of datasets!")
         
     return response.text
 
@@ -56,73 +77,74 @@ def list():
 
 
 
-
 @app.command()
-def register(model, name:str, version:str='v1') -> str:
-    ''' The function takes in a model, a name and a version and saves the model locally, then uploads the
-    model to the PureML server
+def register(dataset, name:str, version:str='v1') -> str:
+    ''' The function takes in a dataset, a name and a version and saves the dataset locally, then uploads the
+    dataset to the PureML server
     
     Parameters
     ----------
-    model
-        The model you want to register
+    dataset
+        The dataset you want to register
     name : str
-        The name of the model.
+        The name of the dataset.
     version: str, optional
-        The version of the model.
+        The version of the dataset.
     
     '''
         
-    save_path = '.pureml'
     user_token = get_token()
     org_id = get_org_id()
     project_id = get_project_id()
 
 
-    url_path_1 = '{}/project/{}/model/create'.format(org_id, project_id)
+    url_path_1 = '{}/project/{}/dataset/create'.format(org_id, project_id)
     url = urljoin(BASE_URL, url_path_1)
 
     
-    save_model(model, name)
+    save_path = save_dataset(dataset, name)
 
-    name_with_ext = '.'.join([name, 'pkl'])
+    name_with_ext = save_path.split('/')[-1]
 
-    model_path = os.path.join(save_path, name_with_ext)
+    print('save path', save_path)
+    print('name with ext', name_with_ext)
+
 
     headers = {
         'Authorization': 'Bearer {}'.format(user_token)
     }
 
 
-    files = {'file': (name_with_ext, open(model_path, 'rb'))}
+    files = {'file': (name_with_ext, open(save_path, 'rb'))}
 
     data = {'name': name, 'project_id':project_id, 'version': version}
     response = requests.post(url, files=files, data=data, headers=headers)
 
     if response.status_code == 200:
-        print(f"[bold green]Model has been registered!")
+        print(f"[bold green]Dataset has been registered!")
 
         return response.text
     else:
-        print(f"[bold red]Model has not been registered!")
+        print(f"[bold red]Dataset has not been registered!")
         print(response.status_code)
         print(response.text)
         return response.text
 
 
+
 @app.command()
 def details(name:str, version:str):
-    '''It fetches the details of a model.
+    '''It fetches the details of a dataset.
     
     Parameters
     ----------
     name : str
-        The name of the model
+        The name of the dataset
     version: str
-        The version of the model
+        The version of the dataset
     Returns
     -------
-        The details of the model.
+        The details of the dataset.
     
     '''
     
@@ -130,7 +152,7 @@ def details(name:str, version:str):
     org_id = get_org_id()
     project_id = get_project_id()
 
-    url_path_1 = '{}/project/{}/model/{}/details'.format(org_id, project_id, name)
+    url_path_1 = '{}/project/{}/dataset/{}/details'.format(org_id, project_id, name)
     url = urljoin(BASE_URL, url_path_1)
 
     headers = {
@@ -143,29 +165,31 @@ def details(name:str, version:str):
 
 
     if response.status_code == 200:
-        print(f"[bold green]Model details have been fetched")
+        print(f"[bold green]Dataset details have been fetched")
         print(response.text)
         return response.text
     else:
-        print(f"[bold red]Model details have not been found")
+        print(f"[bold red]Dataset details have not been found")
         return 
+
+
 
 
 
 @app.command()
 def fetch(name:str, version:str):
-    '''This function fetches a model from the server and returns it as a `Model` object
+    '''This function fetches a dataset from the server and returns it as a dataframe object
     
     Parameters
     ----------
     name : str, optional
-        The name of the model you want to fetch.
+        The name of the dataset you want to fetch.
     version: str
-        The version of the model
+        The version of the dataset
     
     Returns
     -------
-        The model is being returned.
+        The dataset dataframe is being returned.
     
     '''
 
@@ -174,40 +198,40 @@ def fetch(name:str, version:str):
     project_id = get_project_id()
 
 
-    url_path_1 = '{}/project/{}/model/create?name={}'.format(org_id, project_id, name)
+    url_path_1 = '{}/project/{}/dataset/create?name={}'.format(org_id, project_id, name)
     url = urljoin(BASE_URL, url_path_1)
 
-    model_details = details(name=name, version=version)
+    dataset_details = details(name=name, version=version)
 
-    if model_details is None:
+    if dataset_details is None:
         return
 
-    model_details = json.loads(model_details)
-    model_location = model_details['location']
-    model_url = 'http://{}'.format(model_location)
+    dataset_details = json.loads(dataset_details)
+    dataset_location = dataset_details['location']
+    dataset_url = 'http://{}'.format(dataset_location)
     
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Bearer {}'.format(user_token)
     }
     
-    print('url', model_url)
+    print('url', dataset_url)
 
-    # response = requests.get(model_url, headers=headers)
+    # response = requests.get(dataset_url, headers=headers)
 
-    response = requests.get(model_url)
+    response = requests.get(dataset_url)
 
     if response.status_code == 200:
-        model_bytes = response.content
-        open('temp_model.pure', 'wb').write(model_bytes)
+        dataset_bytes = response.content
+        open('temp_dataset.parquet', 'wb').write(dataset_bytes)
 
-        model = load_model(model_path='temp_model.pure')
+        dataset = pd.read_parquet('temp_dataset.parquet')
 
 
-        print(f"[bold green]Model has been fetched")
-        return model
+        print(f"[bold green]Dataset has been fetched")
+        return dataset
     else:
-        print(f"[bold red]Unable to fetch Model")
+        print(f"[bold red]Unable to fetch Dataset")
         print(response.status_code)
         print(response.text)
         print(response.url)
@@ -215,16 +239,19 @@ def fetch(name:str, version:str):
 
 
 
+
+
+
 @app.command()
 def delete(name:str, version:str) -> str:
-    ''' This function deletes a model from the project
+    ''' This function deletes a dataset from the project
     
     Parameters
     ----------
     name : str
-        The name of the model you want to delete
+        The name of the dataset you want to delete
     version : str
-        The version of the model to delete.
+        The version of the dataset to delete.
     
     '''
 
@@ -233,7 +260,7 @@ def delete(name:str, version:str) -> str:
     project_id = get_project_id()
 
 
-    url_path_1 = '{}/project/{}/model/{}/delete'.format(org_id, project_id, name)
+    url_path_1 = '{}/project/{}/dataset/{}/delete'.format(org_id, project_id, name)
     url = urljoin(BASE_URL, url_path_1)
 
     
@@ -249,19 +276,13 @@ def delete(name:str, version:str) -> str:
 
 
     if response.status_code == 200:
-        print(f"[bold green]Model has been deleted")
+        print(f"[bold green]Dataset has been deleted")
         
     else:
-        print(f"[bold red]Unable to delete Model")
+        print(f"[bold red]Unable to delete Dataset")
 
     return response.text
 
 
-@app.command()
-def serve_model():
-    pass
 
 
-
-if __name__ == "__main__":
-    app()

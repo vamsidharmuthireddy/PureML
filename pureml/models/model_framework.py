@@ -1,4 +1,3 @@
-from types import NoneType
 import typing
 from abc import ABC, abstractmethod
 from enum import Enum

@@ -11,14 +11,14 @@ import json
 import typing
 from urllib.parse import urljoin
 
-from . import get_token, get_project_id, BASE_URL, PATH_PURE_DIR
+from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_PURE_DIR
 
 
 app = typer.Typer()
 
 
 @app.command()
-def add(metrics, model_name: str=None) -> str:
+def add(metrics, model_name: str, model_version:str) -> str:
     '''`add()` takes a dictionary of metrics and a model name as input and returns a string
     
     Parameters
@@ -27,6 +27,8 @@ def add(metrics, model_name: str=None) -> str:
         a dictionary of metrics
     model_name : str
         The name of the model you want to add metrics to.
+    model_version: str
+        The version of the model
     
     Returns
     -------
@@ -35,10 +37,11 @@ def add(metrics, model_name: str=None) -> str:
     '''
 
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
     
 
-    url_path_1 = 'model/{}/{}/metrics/add'.format(project_id, model_name)
+    url_path_1 = '{}/project/{}/model/{}/metrics/add'.format(org_id,project_id, model_name)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -56,20 +59,23 @@ def add(metrics, model_name: str=None) -> str:
     if response.status_code == 200:
         print(f"[bold green]Metrics have been registered!")
 
-        return response.text
+    
     else:
         print(f"[bold red]Metrics have not been registered!")
-        return
+        
+    return response.text
 
 
 @app.command()
-def fetch(model_name: str, metric:str='') -> str:
-    '''It fetches the metrics of a model
+def fetch(model_name: str, model_version:str, metric:str='') -> str:
+    '''This function fetches the metrics of a model
     
     Parameters
     ----------
     model_name : str
         The name of the model you want to fetch metrics for.
+    model_version: str
+        The version of the model
     metric : str
         The metric you want to fetch. If you want to fetch all the metrics, leave this parameter empty.
     
@@ -79,10 +85,11 @@ def fetch(model_name: str, metric:str='') -> str:
     
     '''
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
     
 
-    url_path_1 = 'model/{}/{}/metrics/{}'.format(project_id, model_name, metric)
+    url_path_1 = '{}/project/{}/model/{}/metrics/{}'.format(org_id, project_id, model_name, metric)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -131,7 +138,7 @@ def fetch(model_name: str, metric:str='') -> str:
 
 
 @app.command()
-def delete(model_name:str, metric:str) -> str:
+def delete(metric:str, model_name:str, model_version:str) -> str:
     '''This function deletes a metric from a model
     
     Parameters
@@ -140,13 +147,16 @@ def delete(model_name:str, metric:str) -> str:
         The name of the model you want to delete the metric from
     metric : str
         The name of the metric to delete
+    model_version: str
+        The version of the model
     
     '''
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
     
 
-    url_path_1 = 'model/{}/{}/metrics/{}/delete'.format(project_id, model_name, metric)
+    url_path_1 = '{}/project/{}/model/{}/metrics/{}/delete'.format(org_id, project_id, model_name, metric)
     url = urljoin(BASE_URL, url_path_1)
 
 

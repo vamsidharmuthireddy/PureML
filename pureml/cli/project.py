@@ -9,7 +9,7 @@ app = typer.Typer()
 
 import os 
 
-from . import get_token, get_project_id, BASE_URL
+from . import get_token, get_project_id, get_org_id, BASE_URL
 from urllib.parse import urljoin
 
 
@@ -27,11 +27,13 @@ def details(project_id: str):
     '''
 
 
-    url_path_1 = 'project/id/{}'.format(project_id)
+    user_token = get_token()
+    org_id = get_org_id()
+
+
+    url_path_1 = '{}/project/id/{}'.format(org_id, project_id)
     url = urljoin(BASE_URL, url_path_1)
 
-    
-    user_token = get_token()
 
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,10 +44,10 @@ def details(project_id: str):
 
     
     if response.status_code == 200:
-        print(f"[bold green]Project exists in remote database")
+        print(f"[bold green] Project exists in remote database")
         print(f"[bold green]", response.text)
     else:
-        print(f"[bold green]Project doesnot exist in remote database")
+        print(f"[bold green] Project doesnot exist in remote database")
 
     return response
 
@@ -82,15 +84,17 @@ def create(name:str=None, description:str=None):
         The description of the project.
     
     '''
+
+
+    user_token = get_token()
+    org_id = get_org_id()
     
-    url_path_1 = 'project/create'
+    url_path_1 = '{}/project/create'.format(org_id)
     url = urljoin(BASE_URL, url_path_1)
 
-    
-    user_token = get_token()
 
     if name is None:
-        print(f"\n[bold]Enter project details[/bold]\n")
+        print(f"\n[bold] Enter project details[/bold]\n")
 
         name: str = typer.prompt("Project Name: ")
         description: str = typer.prompt("Description:")
@@ -108,36 +112,12 @@ def create(name:str=None, description:str=None):
     }
 
 
-    # def create_project(url, data, headers):
-
-    #     response = requests.post(url,data=data, headers=headers)
-        
-      
-    #     if response.status_code == 200:
-    #         project_file_name = '.pureml/pure.project'
-    #         project_path = os.path.join(os.getcwd(), project_file_name)
-
-    #         project_dir = os.path.sep.join(project_path.split(os.path.sep)[:-1])
-    #         os.makedirs(project_dir, exist_ok=True)
-
-    #         with open(project_path, "w") as f:
-    #             project_details: str = response.text
-    #             project_details = project_details.strip('"')
-    #             f.write(project_details)
-            
-    #         print(response.text)
-    #         print('[bold green] Project Successfully created')
-
-    #     return response
-
-
-
     project_id = get_project_id()
         
     project_response = details(project_id=project_id)
     
     if project_response.status_code == 200:
-        print("[bold yellow]Project already exists. If you want to update the project, use update command")
+        print("[bold yellow] Project already exists. If you want to update the project, use update command")
         return
     else:
         response = requests.post(url,data=data, headers=headers)
@@ -148,7 +128,7 @@ def create(name:str=None, description:str=None):
             print(response.text)
             print('[bold red] Unable to create Project')
 
-        return response
+        return response.text
     
 
 
@@ -164,16 +144,19 @@ def delete(project_id:str = None):
         The id of the project you want to delete.
     
     '''
+
+
+    user_token = get_token()
+    org_id = get_org_id()
+
     if project_id is None:
         print(f"\n[bold]Enter Project Details[/bold]\n")
         project_id: str = typer.prompt("Project Id: ")
     
 
-    url_path_1 = 'project/:{}/delete'.format(project_id)
+    url_path_1 = '{}/project/{}/delete'.format(org_id, project_id)
     url = urljoin(BASE_URL, url_path_1)
 
-
-    user_token = get_token()
 
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -184,10 +167,10 @@ def delete(project_id:str = None):
 
         response = requests.delete(url, headers=headers)
         if response.status_code == 200:
-            print(f"[bold green]Deleted the project!")
+            print(f"[bold green] Deleted the project!")
             print(response.text)
         else:
-            print(f"[bold red]Could not delete the project!")
+            print(f"[bold red] Could not delete the project!")
             print(response.status_code)
             print(response.text)
 
@@ -223,14 +206,17 @@ def update(project_id:str, name:str=None, description:str=''):
     '''
     print(f"\n[bold]Enter the updated project details[/bold]\n")
 
-    url_path_1 = 'project/:{}/update'.format(project_id)
+
+    user_token = get_token()
+    org_id = get_org_id()
+
+    url_path_1 = '{}/project/{}/update'.format(org_id, project_id)
     url = urljoin(BASE_URL, url_path_1)
 
 
-    user_token = get_token()
 
     if name is None:
-        print(f"\n[bold]Enter project details[/bold]\n")
+        print(f"\n[bold] Enter project details[/bold]\n")
 
         name: str = typer.prompt("Project Name: ")
         description: str = typer.prompt("Description:")
@@ -252,10 +238,10 @@ def update(project_id:str, name:str=None, description:str=''):
         print(response.text)
 
         if response.status_code == 200:
-            print(f"[bold green]Updated the project!")
+            print(f"[bold green] Updated the project!")
             print(response.text)
         else:
-            print(f"[bold red]Could not update the project!")
+            print(f"[bold red] Could not update the project!")
             print(response.text)
         
         return response
@@ -309,10 +295,12 @@ def list():
     
     '''
 
-    url_path_1 = 'project/all'
-    url = urljoin(BASE_URL, url_path_1)
 
     user_token = get_token()
+    org_id = get_org_id()
+
+    url_path_1 = '{}/project/all'.format(org_id)
+    url = urljoin(BASE_URL, url_path_1)
 
     
     headers = {
@@ -324,12 +312,12 @@ def list():
     # print(response.text)
 
     if response.status_code == 200:
-        print(f"[bold green]Obtained the project list")
+        print(f"[bold green] Obtained the project list")
         print(response.text)
 
         return response
     else:
-        print(f"[bold red]Unable to obtain the project list!")
+        print(f"[bold red] Unable to obtain the project list!")
         return
     
 

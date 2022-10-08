@@ -1,7 +1,29 @@
 
+
+## Release of V0.1.1
+### Changes
+
+- Added description
+- Updated python support from ^3.10 to ^3.8
+- Added docs for quick start
+- Added dataset api's:  adding, delete, fetch, details
+- Added decorators for model, dataset
+- Removed organization details for signup
+- Added versions for models. 
+- Changed apis to take model version in calling
+- 
+
+### Bug fixes
+- Minor bug fixes in artifact details api
+- Minor bug fix in backend base url
+- Minor bug fix in signup api
+- Minor bug fix in package requirements
+
+
+
 ## Release of V0.1.0
 
-We have released version 0.1.0. We now support different components of model registry. Here is the list of actionable items that are supported in the release version.
+We have released version 0.1.0. We now support different components of the model registry. Here is the list of actionable items that are supported in the release version.
 
 
 - Projects:

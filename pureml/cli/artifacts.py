@@ -12,30 +12,33 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_project_id, BASE_URL, PATH_ARTIFACT_DIR
+from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_ARTIFACT_DIR
 from joblib import Parallel, delayed
 
 app = typer.Typer()
 
 @app.command()
-def details(model_name:str, artifact:str=''):
+def details(model_name:str, model_version:str, name:str=''):
     '''This function returns the details of the artifact for a given model
     
     Parameters
     ----------
     model_name : str
         The name of the model you want to get the artifact details for
-    artifact : str
+    model_version: str
+        The version of the model
+    name : str
         The name of the artifact.
     
     '''
 
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
 
 
 
-    url_path_1 = 'model/{}/{}/artifacts/{}/'.format(project_id, model_name, artifact)
+    url_path_1 = '{}/project/{}/model/{}/artifacts/{}/'.format(org_id, project_id, model_name, name)
     url = urljoin(BASE_URL, url_path_1)
 
     headers = {
@@ -68,7 +71,7 @@ def details(model_name:str, artifact:str=''):
 
 
 @app.command()
-def add(artifact: str, name: str, model_name: str) -> str:    
+def add(artifact: str, name: str, model_name: str, model_version:str) -> str:    
     '''`add` function takes in the path of the artifact, name of the artifact and the model name and
     registers the artifact
     
@@ -80,6 +83,8 @@ def add(artifact: str, name: str, model_name: str) -> str:
         The name of the artifact.
     model_name : str
         The name of the model you want to add artifacts to.
+    model_version: str
+        The version of the model
     
     Returns
     -------
@@ -88,9 +93,10 @@ def add(artifact: str, name: str, model_name: str) -> str:
     '''
     
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
     
-    url_path_1 = 'model/{}/{}/artifacts/add'.format(project_id, model_name)
+    url_path_1 = '{}/project/{}/model/{}/artifacts/add'.format(org_id, project_id, model_name)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -117,23 +123,24 @@ def add(artifact: str, name: str, model_name: str) -> str:
     if response.status_code == 200:
         print(f"[bold green]Artifacts have been registered!")
 
-        return response.text
     else:
         print(f"[bold red]Artifacts have not been registered!")
         print(response.text)
-        return
 
+    return response.text
 
 
 @app.command()
-def fetch(model_name: str, artifact:str = ''):
+def fetch(model_name: str, model_version:str, name:str = ''):
     '''It fetches the artifact from the server and stores it in the local directory
     
     Parameters
     ----------
     model_name : str
         The name of the model you want to fetch the artifact from.
-    artifact : str
+    model_version: str
+        The version of the model
+    name : str
         The name of the artifact to be fetched. If not specified, all artifacts will be fetched.
     
     Returns
@@ -143,6 +150,7 @@ def fetch(model_name: str, artifact:str = ''):
     '''
 
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
 
 
@@ -154,7 +162,7 @@ def fetch(model_name: str, artifact:str = ''):
         save_path = os.path.join(PATH_ARTIFACT_DIR, file_name)
         print('save path', save_path)
 
-        name = artifact_details['artifact']
+        name_fetched = artifact_details['artifact']
 
 
         headers = {
@@ -170,7 +178,7 @@ def fetch(model_name: str, artifact:str = ''):
         print(response.status_code)
 
         if response.status_code == 200:
-            print('[bold green] Artifact {} has been fetched'.format(name))
+            print('[bold green] Artifact {} has been fetched'.format(name_fetched))
 
             save_dir = os.path.dirname(save_path)
 
@@ -181,7 +189,7 @@ def fetch(model_name: str, artifact:str = ''):
             open(save_path, 'wb').write(artifact_bytes)
 
 
-            print('[bold green] Artifact {} has been stored at {}'.format(name, save_path))
+            print('[bold green] Artifact {} has been stored at {}'.format(name_fetched, save_path))
             
             return response.text
         else:
@@ -190,7 +198,7 @@ def fetch(model_name: str, artifact:str = ''):
             return response.text
 
 
-    artifact_details = details(model_name=model_name, artifact=artifact)
+    artifact_details = details(model_name=model_name, name=name, model_version=model_version)
 
     if artifact_details is None:
         return
@@ -211,22 +219,25 @@ def fetch(model_name: str, artifact:str = ''):
 
 
 @app.command()
-def delete(model_name:str, artifact:str) -> str:
+def delete(name:str, model_name:str,  model_version:str) -> str:
     '''`delete()` deletes an artifact from a model
     
     Parameters
     ----------
+    name : str
+        The name of the artifact you want to delete.
     model_name : str
         The name of the model you want to delete the artifact from
-    artifact : str
-        The name of the artifact you want to delete.
+    model_version: str
+        The version of the model
     
     '''
 
     user_token = get_token()
+    org_id = get_org_id()
     project_id = get_project_id()
 
-    url_path_1 = 'model/{}/{}/artifacts/{}/delete'.format(project_id, model_name, artifact)
+    url_path_1 = '{}/project/{}/model/{}/artifacts/{}/delete'.format(org_id, project_id, model_name, name)
     url = urljoin(BASE_URL, url_path_1)
 
     
@@ -252,7 +263,7 @@ def delete(model_name:str, artifact:str) -> str:
     else:
         print(f"[bold red]Unable to delete artifact")
 
-    return response 
+    return response.text
 
 
 
