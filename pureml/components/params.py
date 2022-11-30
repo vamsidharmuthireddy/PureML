@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 import jwt
 import requests
-import typer
+# import typer
 from rich import print
 from rich.syntax import Syntax
 
@@ -11,36 +11,17 @@ import json
 import typing
 from urllib.parse import urljoin
 
-from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_PURE_DIR
+from . import get_token, get_project_id, get_org_id, convert_values_to_string
+from pureml.utils.constants import BASE_URL, PATH_USER_PROJECT_DIR
+from pureml.utils.pipeline import add_params_to_config
 
 
-app = typer.Typer()
-
-
-@app.command()
-def add(params, model_name: str, model_version:str) -> str:
-    '''`add()` takes a dictionary of parameters and a model name as input and returns a string
-    
-    Parameters
-    ----------
-    params : dict
-        a dictionary of parameters
-    model_name : str
-        The name of the model you want to add parameters to.
-    model_version: str
-        The version of the model
-    
-    Returns
-    -------
-        The response.text is being returned.
-    
-    '''
-
+def post_params(params, model_name: str, model_version:str):
     user_token = get_token()
     org_id = get_org_id()
     project_id = get_project_id()
     
-    url_path_1 = '{}/project/{}/model/{}/params/add'.format(org_id, project_id, model_name)
+    url_path_1 = '{}/project/{}/model/{}/{}/params/add'.format(org_id, project_id, model_name, model_version)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -61,13 +42,43 @@ def add(params, model_name: str, model_version:str) -> str:
     else:
         print(f"[bold red]Params have not been registered!")
 
+    return response
+
+
+def add(params, model_name: str=None, model_version:str='latest') -> str:
+    '''`add()` takes a dictionary of parameters and a model name as input and returns a string
     
-    return response.text
+    Parameters
+    ----------
+    params : dict
+        a dictionary of parameters
+    model_name : str
+        The name of the model you want to add parameters to.
+    model_version: str
+        The version of the model
+    
+    Returns
+    -------
+        The response.text is being returned.
+    
+    '''
+
+    params = convert_values_to_string(logged_dict=params)
+
+    add_params_to_config(values=params, model_name=model_name, model_version=model_version)
+
+    if model_name is not None and model_version is not None:
+        response = post_params(params=params, model_name=model_name, model_version=model_version)
+
+    #     return response.text
+        
+    # return 
+
         
 
 
-@app.command()
-def fetch(model_name: str, model_version:str, param:str='') -> str:
+# @app.command()
+def fetch(model_name: str, model_version:str='latest', param:str='') -> str:
     '''
     
     This function fetches the parameters of a model
@@ -91,7 +102,7 @@ def fetch(model_name: str, model_version:str, param:str='') -> str:
     project_id = get_project_id()
     
 
-    url_path_1 = '{}/project/{}/model/{}/params/{}'.format(org_id, project_id, model_name, param)
+    url_path_1 = '{}/project/{}/model/{}/{}/params/{}'.format(org_id, project_id, model_name, model_version, param)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -103,7 +114,6 @@ def fetch(model_name: str, model_version:str, param:str='') -> str:
 
     response = requests.get(url, headers=headers)
 
-#     params = None
     if response.status_code == 200:
         res_text = json.loads(response.text)
 
@@ -111,8 +121,8 @@ def fetch(model_name: str, model_version:str, param:str='') -> str:
 
             params = res_text
 
-            print(f"[bold green]Params have been fetched")
-            print(params)
+            # print(f"[bold green]Params have been fetched")
+            # print(params)
 
             return params
 
@@ -122,14 +132,14 @@ def fetch(model_name: str, model_version:str, param:str='') -> str:
                 params = res_text['value']
                 # params = json.loads(params)
 
-                print(f"[bold green]Params have been fetched")
-                print(res_text['param'], ':', res_text['value'])
+                # print(f"[bold green]Params have been fetched")
+                # print(res_text['param'], ':', res_text['value'])
 
                 return params
 
             else:
                 print('[bold red]Param {} are not available for the model!'.format(param))
-                print(response.text)
+                # print(response.text)
                 return
         
             
@@ -140,8 +150,8 @@ def fetch(model_name: str, model_version:str, param:str='') -> str:
         return
 
 
-@app.command()
-def delete(param:str, model_name:str, model_version:str) -> str:
+# @app.command()
+def delete(param:str, model_name:str, model_version:str='latest') -> str:
     '''This function deletes a parameter from a model
     
     Parameters
@@ -159,7 +169,7 @@ def delete(param:str, model_name:str, model_version:str) -> str:
     project_id = get_project_id()
     
 
-    url_path_1 = '{}/project/{}/model/{}/params/{}/delete'.format(org_id,project_id, model_name, param)
+    url_path_1 = '{}/project/{}/model/{}/{}/params/{}/delete'.format(org_id,project_id, model_name, model_version, param)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -178,9 +188,3 @@ def delete(param:str, model_name:str, model_version:str) -> str:
         print(f"[bold red]Unable to delete Param")
 
     return response.text
-
-
-
-
-if __name__ == "__main__":
-    app()

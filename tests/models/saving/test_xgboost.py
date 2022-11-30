@@ -5,7 +5,7 @@ import random
 import string
 import joblib
 import pytest
-from pureml.models import load_model, save_model
+from pureml.packaging import load_model, save_model
 
 def data():
     X, y = make_classification()
@@ -54,7 +54,7 @@ def test_saved_model_contents():
 
     assert os.path.isfile(model_save_path) == True
     model_dict = joblib.load(model_save_path)
-    assert len(model_dict.keys()) == 4
+    assert len(model_dict.keys()) == 3
 
 
 

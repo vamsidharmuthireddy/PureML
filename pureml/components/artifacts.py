@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Optional
 import jwt
 import requests
-import typer
+# import typer
 from rich import print
 from rich.syntax import Syntax
 
@@ -12,13 +12,15 @@ import typing
 
 from urllib.parse import urljoin
 
-from . import get_token, get_project_id, get_org_id, BASE_URL, PATH_ARTIFACT_DIR
+from . import get_token, get_project_id, get_org_id
+
+from pureml.utils.constants import BASE_URL, PATH_ARTIFACT_DIR
 from joblib import Parallel, delayed
 
-app = typer.Typer()
+# app = typer.Typer()
 
-@app.command()
-def details(model_name:str, model_version:str, name:str=''):
+# @app.command()
+def details(model_name:str, model_version:str='latest', name:str=''):
     '''This function returns the details of the artifact for a given model
     
     Parameters
@@ -38,7 +40,7 @@ def details(model_name:str, model_version:str, name:str=''):
 
 
 
-    url_path_1 = '{}/project/{}/model/{}/artifacts/{}/'.format(org_id, project_id, model_name, name)
+    url_path_1 = '{}/project/{}/model/{}/{}/artifacts/{}/'.format(org_id, project_id, model_name, model_version, name)
     url = urljoin(BASE_URL, url_path_1)
 
     headers = {
@@ -70,8 +72,8 @@ def details(model_name:str, model_version:str, name:str=''):
 
 
 
-@app.command()
-def add(artifact: str, name: str, model_name: str, model_version:str) -> str:    
+# @app.command()
+def add(artifact: str, name: str, model_name: str, model_version:str='latest') -> str:    
     '''`add` function takes in the path of the artifact, name of the artifact and the model name and
     registers the artifact
     
@@ -96,7 +98,7 @@ def add(artifact: str, name: str, model_name: str, model_version:str) -> str:
     org_id = get_org_id()
     project_id = get_project_id()
     
-    url_path_1 = '{}/project/{}/model/{}/artifacts/add'.format(org_id, project_id, model_name)
+    url_path_1 = '{}/project/{}/model/{}/{}/artifacts/add'.format(org_id, project_id, model_name, model_version)
     url = urljoin(BASE_URL, url_path_1)
 
 
@@ -130,8 +132,8 @@ def add(artifact: str, name: str, model_name: str, model_version:str) -> str:
     return response.text
 
 
-@app.command()
-def fetch(model_name: str, model_version:str, name:str = ''):
+# @app.command()
+def fetch(model_name: str, model_version:str='latest', name:str = ''):
     '''It fetches the artifact from the server and stores it in the local directory
     
     Parameters
@@ -218,8 +220,8 @@ def fetch(model_name: str, model_version:str, name:str = ''):
 
 
 
-@app.command()
-def delete(name:str, model_name:str,  model_version:str) -> str:
+# @app.command()
+def delete(name:str, model_name:str,  model_version:str='latest') -> str:
     '''`delete()` deletes an artifact from a model
     
     Parameters
@@ -237,7 +239,7 @@ def delete(name:str, model_name:str,  model_version:str) -> str:
     org_id = get_org_id()
     project_id = get_project_id()
 
-    url_path_1 = '{}/project/{}/model/{}/artifacts/{}/delete'.format(org_id, project_id, model_name, name)
+    url_path_1 = '{}/project/{}/model/{}/{}/artifacts/{}/delete'.format(org_id, project_id, model_name, model_version, name)
     url = urljoin(BASE_URL, url_path_1)
 
     
@@ -268,8 +270,8 @@ def delete(name:str, model_name:str,  model_version:str) -> str:
 
 
 
-if __name__ == "__main__":
-    app()
+# if __name__ == "__main__":
+#     app()
 
 
 

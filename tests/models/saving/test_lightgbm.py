@@ -1,6 +1,6 @@
 from sklearn.datasets import make_classification
 from lightgbm import LGBMClassifier
-from pureml.models import save_model, load_model
+from pureml.packaging import save_model, load_model
 import os
 import random
 import string
@@ -55,7 +55,7 @@ def test_saved_model_contents():
 
     assert os.path.isfile(model_save_path) == True
     model_dict = joblib.load(model_save_path)
-    assert len(model_dict.keys()) == 4
+    assert len(model_dict.keys()) == 3
 
 
 

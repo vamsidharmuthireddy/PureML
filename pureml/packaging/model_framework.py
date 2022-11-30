@@ -74,7 +74,7 @@ class ModelConfig(BaseModel):
     def from_dict(model_config_dict: dict):
         config = ModelConfig(   
             model = model_config_dict['model'],
-            model_name = model_config_dict['model_name'],
+            # model_name = model_config_dict['model_name'],
             model_framework = model_config_dict['model_framework'],
             model_requirements = model_config_dict['model_requirements'])
 
@@ -85,7 +85,7 @@ class ModelConfig(BaseModel):
     def to_dict(self):
         return {
             'model': self.model,
-            'model_name': self.model_name,
+            # 'model_name': self.model_name,
             'model_framework': self.model_framework,
             'model_requirements': self.model_requirements
         }

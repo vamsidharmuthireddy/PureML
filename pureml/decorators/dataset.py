@@ -1,27 +1,40 @@
-from pureml.cli.dataset import register
+from pureml.components.dataset import register
+from pureml.utils.pipeline import add_dataset_to_config
+from pureml.pipeline.data.create_pipeline import create_pipeline
 
-
-
-
-def dataset(name:str, version:str):
+def dataset(name:str, parent:str=None, upload=False):
 
     def decorator(func):
-        print('Inside decorator')
+        # print('Inside decorator')
 
-        print('decorating', func, 'with argument', name, version)
+
+        add_dataset_to_config(name=name, parent=parent)
         
         def wrapper(*args, **kwargs):
-            print("Inside wrapper")
+            # print("Inside wrapper")
             
-            df = func(*args, **kwargs)
+            func_output = func(*args, **kwargs)
+            # print(func_output)
 
-            res_text = register(dataset=df, name=name, version=version)
 
-            return res_text
+            pipeline = create_pipeline()
 
-        print("Outside  wrapper")
+            if not upload:
+                dataset = None
+            else:
+                dataset = func_output
+
+            dataset_exists_in_remote, dataset_hash, dataset_version = register(dataset=dataset, name=name, pipeline=pipeline)
+
+
+            if dataset_exists_in_remote:
+                add_dataset_to_config(name=name, hash=dataset_hash, version=dataset_version, parent=parent)
+
+            return func_output
+
+        # print("Outside  wrapper")
 
         return wrapper
-    print('Outside decorator')
+    # print('Outside decorator')
         
     return decorator

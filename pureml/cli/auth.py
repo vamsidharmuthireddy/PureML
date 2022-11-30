@@ -6,12 +6,40 @@ import requests
 import typer
 from rich import print
 from rich.syntax import Syntax
-from . import BASE_URL
+from pureml.utils.constants import BASE_URL, PATH_USER_TOKEN
 
 from urllib.parse import urljoin
-
+import json
 
 app = typer.Typer()
+
+
+def save_auth(response:requests.Response):
+    # token_path = "~/.pureml/token"
+    # token_path = os.path.expanduser(token_path)
+    token_path = PATH_USER_TOKEN
+
+    token_dir = os.path.dirname(token_path)
+    os.makedirs(token_dir, exist_ok=True)
+
+    if response.status_code == 200:
+        with open(token_path, "w") as f:
+            token = response.text
+            token = json.loads(token)['data'][0]
+
+            accessToken = token['accessToken']
+
+            token = json.dumps(token)
+            f.write(token)
+
+            print('accessToken:', accessToken)
+
+        print(f"[bold green]Successfully logged in to your account!")
+    else:
+        print(f"[bold green]Unable to login to your account!")
+
+
+
 
 @app.callback()
 def callback():
@@ -61,28 +89,25 @@ def login():
     url = urljoin(BASE_URL, url_path_1)
 
     response = requests.post(url,json=data)
-    # print(response.text)
+    
     if not response.ok:
         print(f"[bold red]Could not login! Please try again later")
         return
     elif response == "":
         print(f"[bold red]Invalid email or password!")
         return
-    path = "~/.pureml/token"
-    path = os.path.expanduser(path)
-    if not os.path.exists(os.path.dirname(path)):
-        os.makedirs(os.path.dirname(path))
-    with open(path, "w") as f:
-        token: str = response.text
-        token = token.strip('"')
-        f.write(token)
-    print(f"[bold green]Successfully logged in to your account!")
+
+    save_auth(response=response)
+
+ 
 
 @app.command()
 def status():
     print()
-    path = "~/.pureml/token"
-    path = os.path.expanduser(path)
+    # path = "~/.pureml/token"
+    # path = os.path.expanduser(path)
+    path = PATH_USER_TOKEN
+
     curr_path = Path(__file__).parent.resolve()
     if os.path.exists(path):
         token = open(path, "r").read()
@@ -93,8 +118,10 @@ def status():
         print("[bold red]You are not logged in!")
 
 def statusHelper():
-    path = "~/.pureml/token"
-    path = os.path.expanduser(path)
+    # path = "~/.pureml/token"
+    # path = os.path.expanduser(path)
+    path = PATH_USER_TOKEN
+
     if os.path.exists(path):
         return open(path, "r").read()
     else:
@@ -110,8 +137,10 @@ def auth_validate():
 @app.command()
 def logout():
     print()
-    path = "~/.pureml/token"
-    path = os.path.expanduser(path)
+    # path = "~/.pureml/token"
+    # path = os.path.expanduser(path)
+    path = PATH_USER_TOKEN
+
     if os.path.exists(path):
         os.remove(path)
         print(f"[bold yellow]Successfully logged out!")

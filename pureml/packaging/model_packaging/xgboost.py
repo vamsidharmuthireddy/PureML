@@ -26,7 +26,7 @@ class XGBoost(ModelFramework):
         return model_framework == ModelFrameworkType.XGBOOST.value
 
     def get_requirements(self):
-        print('Inside sklearn  get_requirements')
+        # print('Inside sklearn  get_requirements')
 
         default_requirements = [infer_requirements(framework_name=self.framework_name)]
 

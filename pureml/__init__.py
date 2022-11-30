@@ -1,12 +1,16 @@
 
-# import os
-# from pathlib import Path
-# import joblib
+import os
 
-from .models import load_model, save_model
+from .utils.constants import PATH_USER_PROJECT_DIR
+os.makedirs(PATH_USER_PROJECT_DIR, exist_ok=True)
 
-from .cli import project as project
-from .cli import model as model
-from .cli import metrics as metrics
-from .cli import params as params
-from .cli import artifacts as artifacts
+
+from .packaging import load_model, save_model
+
+from .components import project as project
+from .components import model as model
+from .components import metrics as metrics
+from .components import params as params
+from .components import artifacts as artifacts
+from .components.auth import login
+from .components.log import log

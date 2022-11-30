@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from enum import Enum
 import typing
 
-from pureml.models.errors import FrameworkNotSupportedError
+from pureml.packaging.errors import FrameworkNotSupportedError
 from .model_framework import ModelConfig, ModelFramework, ModelFrameworkType
 # from . import MODEL_FRAMEWORKS_BY_TYPE, SUPPORTED_MODEL_FRAMEWORKS
 
@@ -27,7 +27,7 @@ from .model_packaging.lightgbm import LightGBM
 from .model_packaging.keras import Keras
 from .model_packaging.tensorflow import Tensorflow
 from .model_packaging.pytorch import Pytorch
-
+from pureml.utils.constants import PATH_USER_PROJECT_DIR
 
 
 MODEL_FRAMEWORKS_BY_TYPE = {
@@ -66,7 +66,7 @@ class Model(ABC, BaseModel):
     model_config: ModelConfig = ModelConfig(model=model)
     model_name: str = 'model'
     model_path: Path = None
-    model_dir: str = Path('.pureml')
+    model_dir: str = Path(PATH_USER_PROJECT_DIR)
     model_class: str = None
     # model_framework: str= None
 
@@ -144,7 +144,7 @@ class Model(ABC, BaseModel):
 
         self.model_config.save_to_disk(model_config_path=self.model_path)
 
-        print(self.model_path)
+        # print(self.model_path)
 
 
         # framework = self.model_framework.typ()

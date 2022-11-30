@@ -6,7 +6,7 @@ import joblib
 import os
 import random
 
-from pureml.models import save_model, load_model
+from pureml.packaging import save_model, load_model
 
 
 torch.manual_seed(1)
@@ -64,7 +64,7 @@ def test_saved_model_contents():
 
     assert os.path.isfile(model_save_path) == True
     model_dict = joblib.load(model_save_path)
-    assert len(model_dict.keys()) == 4
+    assert len(model_dict.keys()) == 3
 
 
 
