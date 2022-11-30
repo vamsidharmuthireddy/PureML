@@ -1,0 +1,11 @@
+{
+    "docwriter.style": "NumPy",
+    "docwriter.progress.trackFunctions": true,
+    "docwriter.progress.trackTypes": true,
+    "docwriter.progress.trackClasses": true,
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
