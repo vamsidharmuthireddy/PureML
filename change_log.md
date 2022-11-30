@@ -1,3 +1,32 @@
+## Release of V0.1.2
+### Changes
+
+#### Decorators
+- Added `model` decorator for registering dataset.
+- Added `dataset` for registering dataset.
+- Added `load_data` and `transformer` decorators for generating and registering data pipeline along with `dataset` decorator.
+
+#### Project
+- Project details can now be fetched by project name or id.
+
+#### Data pipeline
+- Data pipelines can be generated using decorators.
+- The nodes contain `load_data`, `transformer` and `dataset`. 
+    - `load_data` nodes are intended to be used to capture functionality that loads the data into memory. 
+    - `transformer` nodes are intended to be used to capture functionality that does transformations on the loaded data.
+    - `dataset` node is intended to be used to capture functionality that generate processed data.
+- Every function that has a decorator can also specify its parent node/nodes. These parent nodes are utilized in generating an accurate data pipeline.
+
+#### Versioning
+- Added dataset registration to a project.
+- Added pipeline generation and registration for a dataset.
+- Added versioning of datasets, and models. Any model or dataset can be fetched by its name its associated version.
+
+
+#### Logging
+- Added `log` functionality to add metrics, params with ease.
+- Logging of metrics/params can be done inside a `model` decorator without additional parameters of `model name` and `model version`. These parameters will be obtained from the model decorator.
+- By default, metrics/params will be added to the `latest` version of model if no version is specified will logging.
 
 
 ## Release of V0.1.1
@@ -11,7 +40,6 @@
 - Removed organization details for signup
 - Added versions for models. 
 - Changed apis to take model version in calling
-- 
 
 ### Bug fixes
 - Minor bug fixes in artifact details api
