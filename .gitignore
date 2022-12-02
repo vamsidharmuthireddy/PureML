@@ -1,8 +1,8 @@
 dist/
 .venv/
-
+.pureml
 poetry.lock
-
+catboost_info/
 experiments/
 
 __pycache__/

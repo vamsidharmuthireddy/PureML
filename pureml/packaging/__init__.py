@@ -15,7 +15,9 @@ def save_model(model, model_name, model_path) -> None:
         The name of the model.
     
     '''
-    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    model_dir = os.path.dirname(model_path)
+    print(model_dir)
+    # os.makedirs(model_dir, exist_ok=True)
 
     Model(model=model, model_name=model_name, model_path=model_path).save_model()
 

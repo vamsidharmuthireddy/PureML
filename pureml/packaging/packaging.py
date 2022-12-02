@@ -61,7 +61,7 @@ class Model(ABC, BaseModel):
 
     #By default predict function of a framework should be assigned to here
     #If a user gives a predict function, assign it here
-    predict: function = None
+    predict: typing.Any = None
 
 
 

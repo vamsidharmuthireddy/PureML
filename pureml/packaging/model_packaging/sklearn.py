@@ -47,15 +47,16 @@ class SKLearn(ModelFramework):
 
     def get_requirements(self):
 
-        # default_requirements = [infer_requirements(framework_name=self.framework_name)]
+        default_requirements = [infer_requirements(framework_name=self.framework_name)]
 
-        # self.additional_requirements = [infer_requirements(lib_name) for lib_name in self.additional_requirements]
+        other_requirements = [infer_requirements(lib_name) for lib_name in self.additional_requirements]
 
-        # self.requirements = default_requirements + self.additional_requirements
+        self.requirements = default_requirements + other_requirements
 
 
-        self.requirements = self.requirements + self.additional_requirements
-        self.requirements  = [infer_requirements(lib_name) for lib_name in self.requirements]
+        # self.requirements = self.requirements + self.additional_requirements
+        # print(self.requirements)
+        # self.requirements  = [infer_requirements(lib_name) for lib_name in self.requirements]
 
         return self.requirements
 
