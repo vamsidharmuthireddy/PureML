@@ -17,7 +17,7 @@ import pandas as pd
 from pureml.utils.hash import check_hash_status_dataset
 
 
-def save_dataset(dataset:pd.DataFrame, name:str):
+def save_dataset(dataset, name:str):
     # file_name = '.'.join([name, 'parquet'])
     file_name = '.'.join([name, 'pkl'])
     save_path = os.path.join(PATH_DATASET_DIR, file_name)

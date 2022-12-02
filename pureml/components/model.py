@@ -9,7 +9,7 @@ import json
 
 
 from . import get_token, get_project_id, get_org_id
-from pureml.utils.constants import BASE_URL, PATH_USER_PROJECT_DIR
+from pureml.utils.constants import BASE_URL, PATH_MODEL_DIR
 from pureml import save_model, load_model
 from urllib.parse import urljoin
 import joblib
@@ -114,18 +114,20 @@ def register(model, name:str) -> str:
     
     '''
         
-    save_path = PATH_USER_PROJECT_DIR
     user_token = get_token()
     org_id = get_org_id()
     project_id = get_project_id()
 
 
+    model_file_name = '.'.join([name, 'pkl'])
+    model_path = os.path.join(PATH_MODEL_DIR, model_file_name)
+
+    os.makedirs(PATH_MODEL_DIR, exist_ok=True)
     
-    save_model(model, name)
+    save_model(model, name, model_path=model_path)
 
-    name_with_ext = '.'.join([name, 'pkl'])
-
-    model_path = os.path.join(save_path, name_with_ext)
+    # name_with_ext = '.'.join([name, 'pkl'])
+    # model_path = os.path.join(PATH_MODEL_DIR, name_with_ext)
 
     model_exists_locally, model_hash =  check_hash_status_model(file_path = model_path, name=name, item_key='model')
     model_exists_remote = check_model_hash(hash=model_hash, name=name)
@@ -144,7 +146,7 @@ def register(model, name:str) -> str:
         }
 
 
-        files = {'file': (name_with_ext, open(model_path, 'rb'))}
+        files = {'file': (model_file_name, open(model_path, 'rb'))}
 
         data = {'name': name, 'project_id':project_id, 'hash':model_hash}
         response = requests.post(url, files=files, data=data, headers=headers)

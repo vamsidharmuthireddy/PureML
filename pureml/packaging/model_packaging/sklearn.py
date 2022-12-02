@@ -1,7 +1,7 @@
 from pathlib import Path
 import typing
 
-from ..model_framework import ModelConfig, ModelFramework, ModelFrameworkType
+from ..model_framework import ModelFramework, ModelFrameworkType
 from ..packaging_utils import infer_requirements
 
 
@@ -47,15 +47,22 @@ class SKLearn(ModelFramework):
 
     def get_requirements(self):
 
-        default_requirements = [infer_requirements(framework_name=self.framework_name)]
+        # default_requirements = [infer_requirements(framework_name=self.framework_name)]
 
-        self.requirements = default_requirements + self.additional_requirements
+        # self.additional_requirements = [infer_requirements(lib_name) for lib_name in self.additional_requirements]
+
+        # self.requirements = default_requirements + self.additional_requirements
+
+
+        self.requirements = self.requirements + self.additional_requirements
+        self.requirements  = [infer_requirements(lib_name) for lib_name in self.requirements]
 
         return self.requirements
 
-    def load_model(self, model_config_path:str= None):
 
-        model_config = ModelConfig().load_from_disk(model_path=self.model_path)
+    def load_model(self, model_config_path:str= None):
+        pass
+        # model_config = ModelConfig().load_from_disk(model_path=self.model_path)
 
     def predict(self):
         pass
