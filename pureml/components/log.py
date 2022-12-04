@@ -25,7 +25,7 @@ def log(metrics = None, params=None, model_name=None, model_version=None):
         if model_version is not None:
             func_params['model_version'] = model_version
 
-        func_params['metrics'] = metrics
+        func_params['metrics'] = metrics.copy()
         
         pure_metrics.add(**func_params)
 
@@ -37,5 +37,5 @@ def log(metrics = None, params=None, model_name=None, model_version=None):
         if model_version is not None:
             func_params['model_version'] = model_version
 
-        func_params['params'] = params
+        func_params['params'] = params.copy()
         pure_params.add(**func_params)
