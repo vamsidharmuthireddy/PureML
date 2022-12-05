@@ -12,6 +12,7 @@ class ModelFrameworkType(Enum):
     XGBOOST = 'xgboost'
     LIGHTGBM = 'lightgbm'
     CATBOOST = 'catboost'
+    PYTORCH_TABNET = 'pytorch_tabnet' #pytorch
     PYTORCH = 'torch' #pytorch
     KERAS = 'keras'
     TENSORFLOW = 'tensorflow'

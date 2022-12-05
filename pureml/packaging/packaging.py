@@ -22,6 +22,7 @@ from .model_packaging.lightgbm import LightGBM
 from .model_packaging.keras import Keras
 from .model_packaging.tensorflow import Tensorflow
 from .model_packaging.pytorch import Pytorch
+from .model_packaging.pytorch_tabnet import PytorchTabnet
 from pureml.utils.constants import PATH_MODEL_DIR
 
 
@@ -35,6 +36,7 @@ MODEL_FRAMEWORKS_BY_TYPE = {
     ModelFrameworkType.KERAS: Keras(),
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER: HuggingfaceTransformer(),
     ModelFrameworkType.PYTORCH: Pytorch(),
+    ModelFrameworkType.PYTORCH_TABNET: PytorchTabnet()
 }
 
 
@@ -45,6 +47,8 @@ SUPPORTED_MODEL_FRAMEWORKS = [
     ModelFrameworkType.KERAS,
     ModelFrameworkType.TENSORFLOW,
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER,
+    ModelFrameworkType.PYTORCH,
+    ModelFrameworkType.PYTORCH_TABNET
 ]
 
 
