@@ -92,9 +92,11 @@ def login():
     
     if not response.ok:
         print(f"[bold red]Could not login! Please try again later")
+        print('[bold yellow] Please signup at https://app.pureml.com/auth/signup')
         return
     elif response == "":
         print(f"[bold red]Invalid email or password!")
+        print('[bold yellow] Please signup at https://app.pureml.com/auth/signup')
         return
 
     save_auth(response=response)

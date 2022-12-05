@@ -46,16 +46,6 @@ def details(name: str=None, id:str = None):
     }
 
     response = requests.get(url,headers=headers)
-    # print(response.url)
-
-    
-    # if response.status_code == 200:
-    #     print(f"[bold green] Project exists in remote database")
-    #     print(f"[bold green]", response.text)
-    # else:
-    #     print(f"[bold red] Project doesnot exist in remote database")
-    #     print(f"[bold red]", response.text)
-
 
     return response
 
@@ -192,73 +182,6 @@ def delete(id:str):
 
 
 
-# def update(project_id:str, name:str=None, description:str=''):
-#     '''It takes in a project id, a name and a description and updates the project with the given id
-    
-#     Parameters
-#     ----------
-#     project_id : str
-#         The id of the project you want to update.
-#     name : str
-#         The name of the project.
-#     description : str
-#         The description of the project
-    
-#     '''
-#     print(f"\n[bold]Enter the updated project details[/bold]\n")
-
-
-#     user_token = get_token()
-#     org_id = get_org_id()
-
-#     url_path_1 = '{}/project/{}/update'.format(org_id, project_id)
-#     url = urljoin(BASE_URL, url_path_1)
-
-
-
-#     if name is None:
-#         print(f"\n[bold] Enter project details[/bold]\n")
-
-#         name: str = typer.prompt("Project Name: ")
-#         description: str = typer.prompt("Description:")
-#     else:
-#         print("Project Name: ", name)
-#         print("Description:", description)
-
-    
-#     data = {"name": name, "description": description}
-
-#     headers = {
-#         'Content-Type': 'application/x-www-form-urlencoded',
-#         'Authorization': 'Bearer {}'.format(user_token)
-#     }
-
-
-#     def update_project(url, data, headers):
-#         response = requests.post(url,data=data, headers=headers)
-#         print(response.text)
-
-#         if response.status_code == 200:
-#             print(f"[bold green] Updated the project!")
-#             print(response.text)
-#         else:
-#             print(f"[bold red] Could not update the project!")
-#             print(response.text)
-        
-#         return response
-
-#     project_reponse = details(project_id=project_id)
-
-#     if project_reponse.status_code == 200:
-    
-#         update_response = update_project(url=url, data=data, headers=headers)
-        
-#         return update_response
-    
-#     else:
-#         return
-
-
     
 
 def list():
@@ -282,8 +205,10 @@ def list():
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Bearer {}'.format(user_token)
     }
-
+    
     response = requests.get(url, headers=headers)
+
+    print(response.elapsed.total_seconds())
     
     if response.status_code == 200:
         # print(f"[bold green] Obtained the project list")

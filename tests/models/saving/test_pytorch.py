@@ -7,7 +7,7 @@ import os
 import random
 
 from pureml.packaging import save_model, load_model
-
+from pureml.utils.constants import PATH_MODEL_DIR
 
 torch.manual_seed(1)
 
@@ -43,9 +43,10 @@ def test_saving_of_model():
 
     model_name = generate_default_name()
     
-    save_model(model, model_name)
+    os.makedirs(PATH_MODEL_DIR, exist_ok=True)
+    model_save_path = os.path.join(PATH_MODEL_DIR ,'.'.join([model_name, 'pkl']))
 
-    model_save_path = os.path.join(os.getcwd(), '.pureml' ,'.'.join([model_name, 'pkl']))
+    save_model(model, model_name, model_save_path)
     print(model_save_path)
 
     assert os.path.isfile(model_save_path) == True
@@ -56,15 +57,16 @@ def test_saved_model_contents():
 
     model_name = generate_default_name()
 
-    save_model(model, model_name)
+    os.makedirs(PATH_MODEL_DIR, exist_ok=True)
+    model_save_path = os.path.join(PATH_MODEL_DIR ,'.'.join([model_name, 'pkl']))
 
-    model_save_path = os.path.join(os.getcwd(), '.pureml' ,'.'.join([model_name, 'pkl']))
+    save_model(model, model_name, model_save_path)
     print(model_save_path)
 
 
     assert os.path.isfile(model_save_path) == True
     model_dict = joblib.load(model_save_path)
-    assert len(model_dict.keys()) == 3
+    assert len(model_dict.keys()) == 4
 
 
 
@@ -73,9 +75,10 @@ def test_load_model():
 
     model_name = generate_default_name()
 
-    save_model(model, model_name)
+    os.makedirs(PATH_MODEL_DIR, exist_ok=True)
+    model_save_path = os.path.join(PATH_MODEL_DIR ,'.'.join([model_name, 'pkl']))
 
-    model_save_path = os.path.join(os.getcwd(), '.pureml' ,'.'.join([model_name, 'pkl']))
+    save_model(model, model_name, model_save_path)
     # print(model_save_path)
 
 
@@ -103,9 +106,10 @@ def test_saved_model_output():
 
     model_name = generate_default_name()
 
-    save_model(model, model_name)
+    os.makedirs(PATH_MODEL_DIR, exist_ok=True)
+    model_save_path = os.path.join(PATH_MODEL_DIR ,'.'.join([model_name, 'pkl']))
 
-    model_save_path = os.path.join(os.getcwd(), '.pureml' ,'.'.join([model_name, 'pkl']))
+    save_model(model, model_name, model_save_path)
 
     assert os.path.isfile(model_save_path) == True
 

@@ -9,6 +9,7 @@ from .packaging import load_model, save_model
 
 from .components import project as project
 from .components import model as model
+from .components import dataset as dataset
 from .components import metrics as metrics
 from .components import params as params
 from .components import artifacts as artifacts

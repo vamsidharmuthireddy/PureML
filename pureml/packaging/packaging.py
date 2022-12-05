@@ -1,25 +1,20 @@
 from pydantic import BaseModel, root_validator
 
 from abc import ABC, abstractmethod
-from pathlib import Path
-import typing
 
-import yaml
+import typing
+import pickle as pkl
 
 from pydantic import BaseModel
-from enum import Enum
 import typing
+import joblib
 
 from pureml.packaging.errors import FrameworkNotSupportedError
-from .model_framework import ModelConfig, ModelFramework, ModelFrameworkType
+from .model_framework import ModelFramework, ModelFrameworkType
 # from . import MODEL_FRAMEWORKS_BY_TYPE, SUPPORTED_MODEL_FRAMEWORKS
 
-from sklearn.base import BaseEstimator
-from sklearn.pipeline import Pipeline
-import pathlib
 
-
-
+from .packaging_utils import get_file_size
 from .model_packaging.sklearn import SKLearn
 from .model_packaging.catboost import CatBoost
 from .model_packaging.xgboost import XGBoost
@@ -27,7 +22,10 @@ from .model_packaging.lightgbm import LightGBM
 from .model_packaging.keras import Keras
 from .model_packaging.tensorflow import Tensorflow
 from .model_packaging.pytorch import Pytorch
-from pureml.utils.constants import PATH_USER_PROJECT_DIR
+from .model_packaging.pytorch_tabnet import PytorchTabnet
+from pureml.utils.constants import PATH_MODEL_DIR
+
+
 
 
 MODEL_FRAMEWORKS_BY_TYPE = {
@@ -38,6 +36,7 @@ MODEL_FRAMEWORKS_BY_TYPE = {
     ModelFrameworkType.KERAS: Keras(),
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER: HuggingfaceTransformer(),
     ModelFrameworkType.PYTORCH: Pytorch(),
+    ModelFrameworkType.PYTORCH_TABNET: PytorchTabnet()
 }
 
 
@@ -48,60 +47,58 @@ SUPPORTED_MODEL_FRAMEWORKS = [
     ModelFrameworkType.KERAS,
     ModelFrameworkType.TENSORFLOW,
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER,
+    ModelFrameworkType.PYTORCH,
+    ModelFrameworkType.PYTORCH_TABNET
 ]
-
-
-
-
-
-
-
-
-
-
 
 
 class Model(ABC, BaseModel):
     model: typing.Any = None
-    model_config: ModelConfig = ModelConfig(model=model)
     model_name: str = 'model'
-    model_path: Path = None
-    model_dir: str = Path(PATH_USER_PROJECT_DIR)
+    model_path: str = None
     model_class: str = None
-    # model_framework: str= None
+
+    model_config: dict = None
+    model: typing.Any = None
+    model_framework: typing.Any = None
+    model_requirements: list = None
+
+    #By default predict function of a framework should be assigned to here
+    #If a user gives a predict function, assign it here
+    predict: typing.Any = None
+
 
 
     @root_validator
     def set_fields(cls, values):
-        # model = values.get('model')
-        # model_name = values.get('model_name')
-        model_config = values.get('model_config')
-        # model_path = values.get('model_path')
-
-        # print('model config')
-        # print(model_config)
-
-        # print('values')
-        # print(values)
-
-        if values['model_path'] is None:
-            values['model_path'] = '.'.join([values['model_name'], 'pkl'])
-
-        if values['model_name'] is not None:
-            values['model_config'].model_name = values['model_name']
-
-        if values['model'] is not None:
-            values['model_config'].model = values['model']
-            
-
-        # print('model config')
-        # print(model_config)
-
-        # print('values')
-        # print(values)
 
 
         return values
+
+
+
+    # @staticmethod
+    def from_dict(self):
+        
+        self.model = self.model_config['model']
+        # model_name = model_config_dict['model_name'],
+        self.model_framework = self.model_config['model_framework']
+        self.model_requirements = self.model_config['model_requirements']
+
+
+
+
+
+    def generate_model_config(self):
+
+        model_config = {
+                            'model': self.model,
+                            'model_framework': self.model_framework,
+                            'model_requirements': self.model_requirements,
+                            'model_size': get_file_size(pkl.dumps(self.model))
+                        }
+
+        return model_config
 
 
 
@@ -128,36 +125,22 @@ class Model(ABC, BaseModel):
 
 
     def save_model(self):
-        # print(self.model_config)
-        model_framework = self.model_framework_from_model()
-        # print(model_framework)
-        # print('model class', self.model_class)
+        self.model_framework = self.model_framework_from_model()
 
-        self.model_config.model_framework = model_framework
-        self.model_config.model_requirements = model_framework.get_requirements()
+        self.model_requirements = self.model_framework.get_requirements()
         
+        self.model_config = self.generate_model_config()
         
-        # print(self.model_config)
+        joblib.dump(self.model_config, self.model_path)
 
-        self.model_path = Path.joinpath(Path.cwd(), self.model_dir, self.model_path)
-        self.model_path.parent.mkdir(parents=True, exist_ok=True)
-
-        self.model_config.save_to_disk(model_config_path=self.model_path)
-
-        # print(self.model_path)
-
-
-        # framework = self.model_framework.typ()
-        # print(self.model_class, self.model_framework, framework)
-
-        # MODEL_SAVE_BY_TYPE[framework](model, model_name)
 
         return self.model_path
 
 
     def load_model(self):
-        self.model_config = self.model_config.load_from_disk(model_config_path=self.model_path)
-        self.model = self.model_config.model
+        self.model_config = joblib.load(self.model_path)
+        self.from_dict() 
+
 
         return self.model
 
