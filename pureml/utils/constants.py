@@ -6,6 +6,7 @@ PATH_USER_PROJECT_DIR = os.path.join(os.getcwd(),'.pureml')
 PATH_CONFIG = os.path.join(PATH_USER_PROJECT_DIR,'config.pkl')# 'temp.yaml'
 
 PATH_ARTIFACT_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
+PATH_ARRAY_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
 PATH_AUDIO_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
 PATH_FIGURE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
 PATH_TABULAR_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
