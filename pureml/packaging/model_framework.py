@@ -17,7 +17,7 @@ class ModelFrameworkType(Enum):
     KERAS = 'keras'
     TENSORFLOW = 'tensorflow'
     # HUGGINGFACE_TRANSFORMER = 'huggingface_transformer'
-    # CUSTOM = 'custom'
+    CUSTOM = 'custom'
 
 
 

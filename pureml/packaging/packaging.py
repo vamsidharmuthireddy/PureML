@@ -23,6 +23,7 @@ from .model_packaging.keras import Keras
 from .model_packaging.tensorflow import Tensorflow
 from .model_packaging.pytorch import Pytorch
 from .model_packaging.pytorch_tabnet import PytorchTabnet
+from .model_packaging.custom import Custom
 from pureml.utils.constants import PATH_MODEL_DIR
 
 
@@ -36,7 +37,8 @@ MODEL_FRAMEWORKS_BY_TYPE = {
     ModelFrameworkType.KERAS: Keras(),
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER: HuggingfaceTransformer(),
     ModelFrameworkType.PYTORCH: Pytorch(),
-    ModelFrameworkType.PYTORCH_TABNET: PytorchTabnet()
+    ModelFrameworkType.PYTORCH_TABNET: PytorchTabnet(),
+    ModelFrameworkType.CUSTOM: Custom()
 }
 
 
@@ -48,7 +50,8 @@ SUPPORTED_MODEL_FRAMEWORKS = [
     ModelFrameworkType.TENSORFLOW,
     # ModelFrameworkType.HUGGINGFACE_TRANSFORMER,
     ModelFrameworkType.PYTORCH,
-    ModelFrameworkType.PYTORCH_TABNET
+    ModelFrameworkType.PYTORCH_TABNET,
+    ModelFrameworkType.CUSTOM
 ]
 
 
@@ -118,16 +121,21 @@ class Model(ABC, BaseModel):
             if framework.supports_model_class(model_class):
                 return framework
 
-        raise FrameworkNotSupportedError(
-            "Model must be one of "
-            + "/".join([t.value for t in SUPPORTED_MODEL_FRAMEWORKS])
-        )
+        # raise FrameworkNotSupportedError(
+        #     "Model must be one of "
+        #     + "/".join([t.value for t in SUPPORTED_MODEL_FRAMEWORKS])
+        # )
+        framework = ModelFrameworkType.CUSTOM
+        return framework
+
 
 
     def save_model(self):
         self.model_framework = self.model_framework_from_model()
-
         self.model_requirements = self.model_framework.get_requirements()
+ 
+        # self.model_framework = ''
+        # self.model_requirements = []
         
         self.model_config = self.generate_model_config()
         
