@@ -6,12 +6,12 @@ PATH_USER_PROJECT_DIR = os.path.join(os.getcwd(),'.pureml')
 PATH_CONFIG = os.path.join(PATH_USER_PROJECT_DIR,'config.pkl')# 'temp.yaml'
 
 PATH_ARTIFACT_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_ARRAY_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_AUDIO_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_FIGURE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_TABULAR_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_VIDEO_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
-PATH_IMAGE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'artifacts')
+PATH_ARRAY_DIR = os.path.join(PATH_USER_PROJECT_DIR,'array')
+PATH_AUDIO_DIR = os.path.join(PATH_USER_PROJECT_DIR,'audio')
+PATH_FIGURE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'figure')
+PATH_TABULAR_DIR = os.path.join(PATH_USER_PROJECT_DIR,'tabular')
+PATH_VIDEO_DIR = os.path.join(PATH_USER_PROJECT_DIR,'video')
+PATH_IMAGE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'image')
 
 PATH_DATASET_DIR = os.path.join(PATH_USER_PROJECT_DIR,'dataset')
 PATH_MODEL_DIR = os.path.join(PATH_USER_PROJECT_DIR,'model')
