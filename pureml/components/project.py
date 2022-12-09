@@ -51,18 +51,14 @@ def details(name: str=None, id:str = None):
 
 
 def save_project(response:requests.Response):
-    # project_file_name = '.pureml/pure.project'
-    # project_path = os.path.join(os.getcwd(), project_file_name)
-    project_path = PATH_USER_PROJECT
 
-    # print('Project Dir', PATH_USER_PROJECT_DIR)
     if os.path.exists(PATH_USER_PROJECT_DIR):
         shutil.rmtree(PATH_USER_PROJECT_DIR)
         os.makedirs(PATH_USER_PROJECT_DIR, exist_ok=True)
 
         config = load_config()
 
-    with open(project_path, "w") as f:
+    with open(PATH_USER_PROJECT, "w") as f:
         project_details = response.json()
         project_details = project_details['data'][0]
         project_details = json.dumps(project_details)
@@ -120,6 +116,13 @@ def init(name:str, description:str=''):
         else:
             # print(response.text)
             print('[bold red] Unable to create Project')
+
+            if os.path.exists(PATH_USER_PROJECT_DIR):
+                shutil.rmtree(PATH_USER_PROJECT_DIR)
+                os.makedirs(PATH_USER_PROJECT_DIR, exist_ok=True)
+
+                config = load_config()
+
 
     # return response.text
     

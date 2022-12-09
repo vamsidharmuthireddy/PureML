@@ -3,15 +3,27 @@ from pureml.utils.config import load_config
 from collections import OrderedDict
 
 def create_nodes(components):
-
     # print(components)
-
 
     nodes = [{'id': component['name'], 'text': component['name']} for component in components]
 
 
+    return nodes
+
+
+def create_extra_nodes(nodes, edges):
+    # print(components)
+    
+    node_nodes = [i['id'] for i in nodes]
+    edge_nodes = sum([[i['from']]+[i['to']] for i in edges], [])
+
+    extra_nodes = list(set([n for n in edge_nodes if n not in node_nodes]))
+
+    nodes = nodes + [{'id': n, 'text':n} for n in extra_nodes]
+
 
     return nodes
+
 
 
 
@@ -29,7 +41,6 @@ def create_edges(components):
 
         edges.append(edge)
 
-    
 
     for n in components:
         if 'parent' in n.keys():
@@ -80,6 +91,8 @@ def create_pipeline():
     edges = create_edges(components=pipeline_components)
 
     nodes = create_nodes(components=pipeline_components)
+
+    nodes = create_extra_nodes(nodes, edges)
     
     pipeline = {
         'edges': edges,
