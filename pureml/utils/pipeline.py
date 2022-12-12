@@ -2,15 +2,23 @@
 from .config import load_config, save_config
 from .constants import PATH_CONFIG
 from .hash import generate_hash_for_dict
-
+import inspect
 
 
 def add_load_data_to_config(name, func=None, hash=''):
 
     config = load_config()
+    code = ''
+    try:
+        code = inspect.getsource(func)
+    except Exception as e:
+        print('Unable to get load_data source code')
+        print(e)
+
     config['load_data'] = {
                             'name' : name,
-                            'hash' : hash
+                            'hash' : hash,
+                            'code' : code
                             }
 
     save_config(config=config)
@@ -38,10 +46,18 @@ def add_transformer_to_config(name, func=None, hash='', parent=None):
 
 
 
+    code = ''
+    try:
+        code = inspect.getsource(func)
+    except Exception as e:
+        print('Unable to get transformer source code')
+        print(e)
+
     config['transformer'][position] = {
                                         'name' : name,
                                         'hash' : hash,
-                                        'parent': parent                                                
+                                        'parent': parent,
+                                        'code': code                                      
                                         }
     # print('saveing configuration for ', name)
     save_config(config=config)
@@ -61,12 +77,19 @@ def add_dataset_to_config(name, func=None, hash='', version='', parent=None):
 
 
 
+    code = ''
+    try:
+        code = inspect.getsource(func)
+    except Exception as e:
+        print('Unable to get dataset source code')
+        print(e)
 
     config['dataset'] = {
                         'name' : name,
                         'hash' : hash,
                         'version': version,
-                        'parent' : parent                                             
+                        'parent' : parent ,
+                        'code': code                                            
                         }
 
 
@@ -82,6 +105,12 @@ def add_model_to_config(name, func=None, hash='', version=''):
 
     config = load_config()
 
+    code = ''
+    try:
+        code = inspect.getsource(func)
+    except Exception as e:
+        print('Unable to get model source code')
+        print(e)
 
     #Empty hash is passed to create the empty model with just model name the first time
     #Complete hash is passed to create the model with all the details in the second time
@@ -91,7 +120,8 @@ def add_model_to_config(name, func=None, hash='', version=''):
         config['model'][position] = {
                                         'name' : name,
                                         'hash' : hash,
-                                        'version': version         
+                                        'version': version,
+                                        'code': code
                                         }
     else:
         position = len(config['model'])
@@ -99,6 +129,7 @@ def add_model_to_config(name, func=None, hash='', version=''):
         if model_name_position == name:        
             config['model'][position]['hash'] = hash
             config['model'][position]['version'] = version
+            config['model'][position]['code'] = code
 
 
     save_config(config=config)
