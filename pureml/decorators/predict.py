@@ -1,5 +1,6 @@
-from pureml.utils.pipeline import add_predict_to_config
-# from pureml.packaging.
+from pureml.utils.pipeline import add_predict_to_config 
+from pureml.utils.constants import PATH_PREDICT_REQUIREMENTS
+import shutil
 
 def predict(model_name:str, model_version:str, requirements_file:str=None):
 
@@ -11,6 +12,7 @@ def predict(model_name:str, model_version:str, requirements_file:str=None):
             func_output = func(*args, **kwargs)
 
             return func_output
+
 
         try:
             add_predict_to_config(func=func, model_name=model_name, model_version=model_version, requirements_file=requirements_file)

@@ -1,7 +1,16 @@
 import os
 
 
+# BASE_URL = 'https://dev-api.pureml.com'
+BASE_URL = 'https://api.pureml.com'
+
+PATH_USER_TOKEN =  os.path.join(os.path.expanduser('~'), '.pureml/token')
+
+
 PATH_USER_PROJECT_DIR = os.path.join(os.getcwd(),'.pureml')
+
+PATH_USER_PROJECT = os.path.join(PATH_USER_PROJECT_DIR,'pure.project')
+
 
 PATH_CONFIG = os.path.join(PATH_USER_PROJECT_DIR,'config.pkl')# 'temp.yaml'
 
@@ -15,10 +24,25 @@ PATH_IMAGE_DIR = os.path.join(PATH_USER_PROJECT_DIR,'image')
 
 PATH_DATASET_DIR = os.path.join(PATH_USER_PROJECT_DIR,'dataset')
 PATH_MODEL_DIR = os.path.join(PATH_USER_PROJECT_DIR,'model')
-PATH_USER_TOKEN =  os.path.join(os.path.expanduser('~'), '.pureml/token')
-PATH_USER_PROJECT = os.path.join(PATH_USER_PROJECT_DIR,'pure.project')
 
-# BASE_URL = 'https://dev-api.pureml.com'
-BASE_URL = 'https://api.pureml.com'
+
+
+PATH_PREDICT_DIR = os.path.join(PATH_USER_PROJECT_DIR,'predict')
+PATH_PREDICT_REQUIREMENTS = os.path.join(PATH_PREDICT_DIR,'requirements.txt')
+PATH_PREDICT = os.path.join(PATH_PREDICT_DIR,'predict.py')
+
+
+PATH_FASTAPI_FILE = os.path.join(PATH_PREDICT_DIR,'fastapi_server.py')
+PORT_FASTAPI = 8005      #Same port as docker server
+
+
+PATH_DOCKER_DIR = os.path.join(PATH_USER_PROJECT_DIR,'docker')
+PATH_DOCKER_IMAGE = os.path.join(PATH_DOCKER_DIR,'Dockerfile')
+PATH_DOCKER_CONFIG = os.path.join(PATH_DOCKER_DIR,'DockerConfig.yaml')
+PORT_DOCKER = 8005      #Same port as fastapi server
+PORT_HOST = 8000
+BASE_IMAGE_DOCKER = 'FROM python:3.8-slim'
+API_IP_DOCKER = "0.0.0.0"
+API_IP_HOST = "0.0.0.0"
 
 

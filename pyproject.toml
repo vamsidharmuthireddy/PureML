@@ -34,9 +34,11 @@ pyarrow = "^8.0.0"
 pandas = "^1.4.3"
 matplotlib = "^3.6.2"
 joblib = "^1.2.0"
+fastapi = "^0.88.0"
+uvicorn = "^0.20.0"
 
 [tool.poetry.dev-dependencies]
-ipykernel = "^6.15.1"
+ipykernel = "^6.19.2"
 lightgbm = "^3.3.2"
 xgboost = "^1.6.1"
 catboost = "^1.0.6"

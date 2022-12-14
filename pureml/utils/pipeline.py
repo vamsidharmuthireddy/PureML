@@ -1,9 +1,10 @@
 
 from .config import load_config, save_config
-from .constants import PATH_CONFIG
+from .constants import PATH_CONFIG, PATH_PREDICT, PATH_PREDICT_DIR, PATH_PREDICT_REQUIREMENTS
 from .hash import generate_hash_for_dict, generate_hash_for_function
 import inspect
-
+import os
+import shutil
 
 def add_load_data_to_config(name, func=None, hash=''):
 
@@ -251,11 +252,20 @@ def add_predict_to_config(name='', func=None, hash='',model_name=None, model_ver
     try:
         code = inspect.getsource(func)
         hash = generate_hash_for_function(func)
+
+        os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+        with open(PATH_PREDICT, 'w') as pred_file:
+            pred_file.write(code)
+
+
     except Exception as e:
         print('Unable to get predict source code')
         print(e)
 
     if requirements_file is not None:
+        shutil.copy(requirements_file, PATH_PREDICT_REQUIREMENTS)
+
+
         try:
             with open(requirements_file, 'r') as req_file:
                 requirements = req_file.readlines()
