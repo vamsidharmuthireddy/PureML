@@ -1,7 +1,7 @@
 
 from .config import load_config, save_config
 from .constants import PATH_CONFIG
-from .hash import generate_hash_for_dict
+from .hash import generate_hash_for_dict, generate_hash_for_function
 import inspect
 
 
@@ -11,6 +11,7 @@ def add_load_data_to_config(name, func=None, hash=''):
     code = ''
     try:
         code = inspect.getsource(func)
+        hash = generate_hash_for_function(func)
     except Exception as e:
         print('Unable to get load_data source code')
         print(e)
@@ -49,6 +50,7 @@ def add_transformer_to_config(name, func=None, hash='', parent=None):
     code = ''
     try:
         code = inspect.getsource(func)
+        hash = generate_hash_for_function(func)
     except Exception as e:
         print('Unable to get transformer source code')
         print(e)
@@ -80,6 +82,7 @@ def add_dataset_to_config(name, func=None, hash='', version='', parent=None):
     code = ''
     try:
         code = inspect.getsource(func)
+        hash = generate_hash_for_function(func)
     except Exception as e:
         print('Unable to get dataset source code')
         print(e)
@@ -108,6 +111,7 @@ def add_model_to_config(name, func=None, hash='', version=''):
     code = ''
     try:
         code = inspect.getsource(func)
+        hash = generate_hash_for_function(func)
     except Exception as e:
         print('Unable to get model source code')
         print(e)
@@ -235,6 +239,41 @@ def add_artifacts_to_config(name, values, func):
                                         'model_name' : model_name,
                                         'model_version' : model_version        
                                         }
+
+
+
+
+def add_predict_to_config(name='', func=None, hash='',model_name=None, model_version=None, requirements_file:str=None):
+    config = load_config()
+    code = ''
+    requirements = ''
+    
+    try:
+        code = inspect.getsource(func)
+        hash = generate_hash_for_function(func)
+    except Exception as e:
+        print('Unable to get predict source code')
+        print(e)
+
+    if requirements_file is not None:
+        try:
+            with open(requirements_file, 'r') as req_file:
+                requirements = req_file.readlines()
+                requirements = [i.split('\n')[0] for i in requirements]
+        except Exception as e:
+            print('Unable to write requirements for prediction')
+            print(e)
+
+
+    config['predict'] = {
+                            'name' : name,
+                            'hash' : hash,
+                            'requirements': requirements,
+                            'code' : code,
+                            }
+
+    save_config(config=config)
+
 
 
 def get_model_latest(config, version='latest'):
