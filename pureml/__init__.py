@@ -15,3 +15,5 @@ from .components import params as params
 from .components import artifacts as artifacts
 from .components.auth import login
 from .components.log import log
+
+from .deploy import docker

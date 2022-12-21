@@ -1,4 +1,4 @@
-from pureml.utils.constants import PATH_PREDICT_DIR, PORT_DOCKER, API_IP_DOCKER, PATH_FASTAPI_FILE
+from pureml.utils.constants import PATH_PREDICT_DIR, PORT_FASTAPI, API_IP_DOCKER, PATH_FASTAPI_FILE
 import os
 
 
@@ -9,7 +9,7 @@ def create_fastapi_file(model_name, model_version):
 from fastapi import FastAPI, Depends
 import uvicorn
 import pureml
-from predict import predict as model_predict
+from predict import model_predict
 
 #import modules needed for predict function
 
@@ -20,14 +20,14 @@ app = FastAPI()
 
 @app.get('/predict')
 async def predict(test_data):
-    results = model.predict(test_data)
+    results = model_predict(model, test_data)
 
     return results
 
 if __name__ == '__main__':
     uvicorn.run(app, host='{HOST}', port={PORT})""".format(
         HOST=API_IP_DOCKER,
-        PORT=PORT_DOCKER,
+        PORT=PORT_FASTAPI,
         MODEL_NAME=model_name,
         MODEL_VERSION=model_version
     )
@@ -38,10 +38,12 @@ if __name__ == '__main__':
         
     api_writer.close()
 
-    print("""
-          API sucessfully created. To run your API, please run the following command
---> !python <api_name>
-          """)
+    print('FastAPI server files are created')
+
+#     print("""
+#           API sucessfully created. To run your API, please run the following command
+# --> !python <api_name>
+#           """)
 
 
 

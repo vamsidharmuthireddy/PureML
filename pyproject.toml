@@ -36,6 +36,7 @@ matplotlib = "^3.6.2"
 joblib = "^1.2.0"
 fastapi = "^0.88.0"
 uvicorn = "^0.20.0"
+docker = "^6.0.1"
 
 [tool.poetry.dev-dependencies]
 ipykernel = "^6.19.2"
