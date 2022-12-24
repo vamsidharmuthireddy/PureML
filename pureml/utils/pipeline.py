@@ -2,7 +2,7 @@
 from .config import load_config, save_config
 from .constants import PATH_CONFIG, PATH_PREDICT, PATH_PREDICT_DIR, PATH_PREDICT_REQUIREMENTS
 from .hash import generate_hash_for_dict, generate_hash_for_function
-import inspect
+from .source_code import get_source_code
 import os
 import shutil
 
@@ -10,12 +10,13 @@ def add_load_data_to_config(name, func=None, hash=''):
 
     config = load_config()
     code = ''
-    try:
-        code = inspect.getsource(func)
-        hash = generate_hash_for_function(func)
-    except Exception as e:
-        print('Unable to get load_data source code')
-        print(e)
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get load_data source code')
+            print(e)
 
     config['load_data'] = {
                             'name' : name,
@@ -49,12 +50,13 @@ def add_transformer_to_config(name, func=None, hash='', parent=None):
 
 
     code = ''
-    try:
-        code = inspect.getsource(func)
-        hash = generate_hash_for_function(func)
-    except Exception as e:
-        print('Unable to get transformer source code')
-        print(e)
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get transformer source code')
+            print(e)
 
     config['transformer'][position] = {
                                         'name' : name,
@@ -81,12 +83,13 @@ def add_dataset_to_config(name, func=None, hash='', version='', parent=None):
 
 
     code = ''
-    try:
-        code = inspect.getsource(func)
-        hash = generate_hash_for_function(func)
-    except Exception as e:
-        print('Unable to get dataset source code')
-        print(e)
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get dataset source code')
+            print(e)
 
     config['dataset'] = {
                         'name' : name,
@@ -110,12 +113,13 @@ def add_model_to_config(name, func=None, hash='', version=''):
     config = load_config()
 
     code = ''
-    try:
-        code = inspect.getsource(func)
-        hash = generate_hash_for_function(func)
-    except Exception as e:
-        print('Unable to get model source code')
-        print(e)
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get model source code')
+            print(e)
 
     #Empty hash is passed to create the empty model with just model name the first time
     #Complete hash is passed to create the model with all the details in the second time
@@ -249,18 +253,18 @@ def add_predict_to_config(name='', func=None, hash='',model_name=None, model_ver
     code = ''
     requirements = ''
     
-    try:
-        code = inspect.getsource(func)
-        hash = generate_hash_for_function(func)
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
 
-        os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
-        with open(PATH_PREDICT, 'w') as pred_file:
-            pred_file.write(code)
+            os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+            with open(PATH_PREDICT, 'w') as pred_file:
+                pred_file.write(code)
 
-
-    except Exception as e:
-        print('Unable to get predict source code')
-        print(e)
+        except Exception as e:
+            print('Unable to get predict source code')
+            print(e)
 
     if requirements_file is not None:
         shutil.copy(requirements_file, PATH_PREDICT_REQUIREMENTS)
