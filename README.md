@@ -1,4 +1,4 @@
-# Pure
+# PureML
 
 
 PureML is the tool that lets you register, version, compare and stage models without the hassle of complex software. The core of PureML is the seamless collaboration across the team. 
