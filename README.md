@@ -3,7 +3,7 @@
     <img
       align="center"
       alt="PureML"
-      src="https://github.com/PureML-Inc/PureML/blob/readme/assets/coverImg.jpeg"
+      src="https://github.com/PureML-Inc/PureML/blob/main/assets/coverImg.jpeg"
       style="width:100%;"
     />
   </a>
@@ -191,7 +191,7 @@ This is how generated data lineage will look like in the UI
 <h1 align="center">
     <img
       align="center"
-      src="https://github.com/PureML-Inc/PureML/blob/readme/assets/pipeline.png?raw=true"
+      src="https://github.com/PureML-Inc/PureML/blob/main/assets/pipeline.png?raw=true"
       style="width:60%;"
     />
   </a>
@@ -208,7 +208,7 @@ Build and run a PureML project to create data lineage and a model with our <b>[d
 ### Demo video (2 min)
 PureML quick start demo
 
-[![PureML Demo Video](https://github.com/PureML-Inc/PureML/blob/readme/assets/demo_video_cover.png?raw=true)](https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc.)
+[![PureML Demo Video](https://github.com/PureML-Inc/PureML/blob/main/assets/demo_video_cover.png?raw=true)](https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc.)
 
 <!-- <iframe
     width="640"
