@@ -214,7 +214,7 @@ PureML quick start demo
     allow="autoplay; encrypted-media"
     allowfullscreen
 > -->
-</iframe>
+
 
 <sub><i>Click the image to play video</i></sub>
 
@@ -297,9 +297,7 @@ To report any bugs you have faced while using PureML package, please
 <br />
 
 # Contributing and developing
-Lets work together to improve the features for everyone. 
-
-Work with mutual respect.
+Lets work together to improve the features for everyone. Work with mutual respect. Check our contributing guide for further details. 
 
 
 <br />
