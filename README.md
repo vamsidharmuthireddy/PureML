@@ -44,11 +44,7 @@
 
 </p>
 
-<!-- 
-<img
-  referrerpolicy="no-referrer-when-downgrade"
-  src="https://static.scarf.sh/a.png?x-pxid=b3c96d79-b8f0-414b-a687-8bfc164b4b7a"
-/> -->
+
 
 </br>
 </br>
