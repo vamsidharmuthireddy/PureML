@@ -117,7 +117,7 @@ You can install and run PureML using `pip`.
 
 ### Using `pip`
 
-1. Install PureML
+Install PureML
     ```bash
     pip install pureml
     ```
