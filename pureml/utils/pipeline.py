@@ -248,45 +248,45 @@ def add_artifacts_to_config(name, values, func):
 
 
 
-def add_predict_to_config(name='', func=None, hash='',model_name=None, model_version=None, requirements_file:str=None):
-    config = load_config()
-    code = ''
-    requirements = ''
+# def add_predict_to_config(name='', func=None, hash='',model_name=None, model_version=None, requirements_file:str=None):
+#     config = load_config()
+#     code = ''
+#     requirements = ''
     
-    if func is not None:
-        try:
-            code = get_source_code(func)
-            hash = generate_hash_for_function(func)
+#     if func is not None:
+#         try:
+#             code = get_source_code(func)
+#             hash = generate_hash_for_function(func)
 
-            os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
-            with open(PATH_PREDICT, 'w') as pred_file:
-                pred_file.write(code)
+#             os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+#             with open(PATH_PREDICT, 'w') as pred_file:
+#                 pred_file.write(code)
 
-        except Exception as e:
-            print('Unable to get predict source code')
-            print(e)
+#         except Exception as e:
+#             print('Unable to get predict source code')
+#             print(e)
 
-    if requirements_file is not None:
-        shutil.copy(requirements_file, PATH_PREDICT_REQUIREMENTS)
-
-
-        try:
-            with open(requirements_file, 'r') as req_file:
-                requirements = req_file.readlines()
-                requirements = [i.split('\n')[0] for i in requirements]
-        except Exception as e:
-            print('Unable to write requirements for prediction')
-            print(e)
+#     if requirements_file is not None:
+#         shutil.copy(requirements_file, PATH_PREDICT_REQUIREMENTS)
 
 
-    config['predict'] = {
-                            'name' : name,
-                            'hash' : hash,
-                            'requirements': requirements,
-                            'code' : code,
-                            }
+#         try:
+#             with open(requirements_file, 'r') as req_file:
+#                 requirements = req_file.readlines()
+#                 requirements = [i.split('\n')[0] for i in requirements]
+#         except Exception as e:
+#             print('Unable to write requirements for prediction')
+#             print(e)
 
-    save_config(config=config)
+
+#     config['predict'] = {
+#                             'name' : name,
+#                             'hash' : hash,
+#                             'requirements': requirements,
+#                             'code' : code,
+#                             }
+
+#     save_config(config=config)
 
 
 
