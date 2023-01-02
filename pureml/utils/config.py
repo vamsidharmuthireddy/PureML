@@ -19,6 +19,8 @@ def load_config():
         config['params'] = defaultdict()
         config['metrics'] = defaultdict()
         config['artifacts'] = defaultdict()
+
+        config['predict'] = defaultdict()
         
         joblib.dump(config, PATH_CONFIG)
 

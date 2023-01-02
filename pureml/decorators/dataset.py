@@ -28,7 +28,7 @@ def dataset(name:str, parent:str=None, upload=False):
 
 
             if dataset_exists_in_remote:
-                add_dataset_to_config(name=name, hash=dataset_hash, version=dataset_version, parent=parent)
+                add_dataset_to_config(name=name, hash=dataset_hash, version=dataset_version, parent=parent, func=func)
 
             return func_output
 

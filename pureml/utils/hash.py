@@ -6,6 +6,8 @@ import joblib
 from .constants import PATH_CONFIG
 from .config import load_config, save_config
 import json
+import inspect
+import re
 
 
 def file_reader_chunk(file_obj, chunk_size=1024):
@@ -43,6 +45,21 @@ def generate_hash_for_dict(values, hash=hashlib.md5):
     hash_value = file_object.hexdigest()
     
     return hash_value
+
+
+
+def generate_hash_for_function(func, hash=hashlib.md5):
+
+    string_stripped = re.sub(r"[\n\t\s]*", "", inspect.getsource(func))
+
+    string_stripped = string_stripped.encode()
+    
+    string_object = hash(string_stripped)
+
+    hash_value = string_object.hexdigest()
+    
+    return hash_value
+
 
 
 

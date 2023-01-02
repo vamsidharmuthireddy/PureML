@@ -1,16 +1,27 @@
 
 from .config import load_config, save_config
-from .constants import PATH_CONFIG
-from .hash import generate_hash_for_dict
-
-
+from .constants import PATH_CONFIG, PATH_PREDICT, PATH_PREDICT_DIR, PATH_PREDICT_REQUIREMENTS
+from .hash import generate_hash_for_dict, generate_hash_for_function
+from .source_code import get_source_code
+import os
+import shutil
 
 def add_load_data_to_config(name, func=None, hash=''):
 
     config = load_config()
+    code = ''
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get load_data source code')
+            print(e)
+
     config['load_data'] = {
                             'name' : name,
-                            'hash' : hash
+                            'hash' : hash,
+                            'code' : code
                             }
 
     save_config(config=config)
@@ -38,10 +49,20 @@ def add_transformer_to_config(name, func=None, hash='', parent=None):
 
 
 
+    code = ''
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get transformer source code')
+            print(e)
+
     config['transformer'][position] = {
                                         'name' : name,
                                         'hash' : hash,
-                                        'parent': parent                                                
+                                        'parent': parent,
+                                        'code': code                                      
                                         }
     # print('saveing configuration for ', name)
     save_config(config=config)
@@ -61,12 +82,21 @@ def add_dataset_to_config(name, func=None, hash='', version='', parent=None):
 
 
 
+    code = ''
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get dataset source code')
+            print(e)
 
     config['dataset'] = {
                         'name' : name,
                         'hash' : hash,
                         'version': version,
-                        'parent' : parent                                             
+                        'parent' : parent ,
+                        'code': code                                            
                         }
 
 
@@ -82,6 +112,14 @@ def add_model_to_config(name, func=None, hash='', version=''):
 
     config = load_config()
 
+    code = ''
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+        except Exception as e:
+            print('Unable to get model source code')
+            print(e)
 
     #Empty hash is passed to create the empty model with just model name the first time
     #Complete hash is passed to create the model with all the details in the second time
@@ -91,7 +129,8 @@ def add_model_to_config(name, func=None, hash='', version=''):
         config['model'][position] = {
                                         'name' : name,
                                         'hash' : hash,
-                                        'version': version         
+                                        'version': version,
+                                        'code': code
                                         }
     else:
         position = len(config['model'])
@@ -99,6 +138,7 @@ def add_model_to_config(name, func=None, hash='', version=''):
         if model_name_position == name:        
             config['model'][position]['hash'] = hash
             config['model'][position]['version'] = version
+            config['model'][position]['code'] = code
 
 
     save_config(config=config)
@@ -204,6 +244,50 @@ def add_artifacts_to_config(name, values, func):
                                         'model_name' : model_name,
                                         'model_version' : model_version        
                                         }
+
+
+
+
+def add_predict_to_config(name='', func=None, hash='',model_name=None, model_version=None, requirements_file:str=None):
+    config = load_config()
+    code = ''
+    requirements = ''
+    
+    if func is not None:
+        try:
+            code = get_source_code(func)
+            hash = generate_hash_for_function(func)
+
+            os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+            with open(PATH_PREDICT, 'w') as pred_file:
+                pred_file.write(code)
+
+        except Exception as e:
+            print('Unable to get predict source code')
+            print(e)
+
+    if requirements_file is not None:
+        shutil.copy(requirements_file, PATH_PREDICT_REQUIREMENTS)
+
+
+        try:
+            with open(requirements_file, 'r') as req_file:
+                requirements = req_file.readlines()
+                requirements = [i.split('\n')[0] for i in requirements]
+        except Exception as e:
+            print('Unable to write requirements for prediction')
+            print(e)
+
+
+    config['predict'] = {
+                            'name' : name,
+                            'hash' : hash,
+                            'requirements': requirements,
+                            'code' : code,
+                            }
+
+    save_config(config=config)
+
 
 
 def get_model_latest(config, version='latest'):

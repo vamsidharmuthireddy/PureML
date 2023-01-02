@@ -20,7 +20,7 @@ def model(name:str):
 
             if model_exists_in_remote:                 #Only add the model to config if it is successfully pushed
 
-                add_model_to_config(name=name, hash=model_hash, version=model_version)
+                add_model_to_config(name=name, hash=model_hash, version=model_version, func=func)
 
                 metric_values = load_metrics_from_config()
                 if len(metric_values) !=0 :
