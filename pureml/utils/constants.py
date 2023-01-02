@@ -32,6 +32,9 @@ PATH_PREDICT_DIR = os.path.join(PATH_USER_PROJECT_DIR,PATH_PREDICT_DIR_RELATIVE)
 PATH_PREDICT_REQUIREMENTS = os.path.join(PATH_PREDICT_DIR,'requirements.txt')
 PATH_PREDICT = os.path.join(PATH_PREDICT_DIR,'predict.py')
 
+PATH_PREDICT_USER = os.path.join(os.getcwd(), 'predict.py')
+PATH_PREDICT_REQUIREMENTS_USER = os.path.join(os.getcwd(), 'requirements.txt')
+
 
 PATH_FASTAPI_FILE = os.path.join(PATH_PREDICT_DIR,'fastapi_server.py')
 PORT_FASTAPI = 8005      #Same port as docker server

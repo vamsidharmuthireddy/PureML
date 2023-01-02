@@ -1,9 +1,48 @@
 from pureml.utils.constants import PATH_PREDICT_DIR, PORT_FASTAPI, API_IP_DOCKER, PATH_FASTAPI_FILE
+from pureml.utils.constants import PATH_PREDICT_USER, PATH_PREDICT, PATH_PREDICT_REQUIREMENTS_USER, PATH_PREDICT_REQUIREMENTS
 import os
+import shutil
 
+def get_predict_file(predict_path):
 
-def create_fastapi_file(model_name, model_version):
     os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+
+    if predict_path is None:
+        predict_path = PATH_PREDICT_USER
+        print('Taking the default predict.py file path: ', predict_path)
+    else:
+        print('Taking the predict.py file path: ', predict_path)
+    
+
+    if os.path.exists(predict_path):
+        shutil.copy(predict_path, PATH_PREDICT)
+    else:
+        raise Exception(predict_path, 'doesnot exists!!!')
+
+
+def get_requirements_file(requirements_path):
+
+    os.makedirs(PATH_PREDICT_DIR, exist_ok=True)
+
+    if requirements_path is None:
+        requirements_path = PATH_PREDICT_REQUIREMENTS_USER
+        print('Taking the default requirements.txt file path: ', requirements_path)
+    else:
+        print('Taking the requirements.txt file path: ', requirements_path)
+    
+
+    if os.path.exists(requirements_path):
+        shutil.copy(requirements_path, PATH_PREDICT_REQUIREMENTS)
+    else:
+        raise Exception(requirements_path, 'doesnot exists!!!')
+
+
+def create_fastapi_file(model_name, model_version, predict_path, requirements_path):
+    
+    get_predict_file(predict_path)
+
+    get_requirements_file(requirements_path)
+
       
     query = """
 from fastapi import FastAPI, Depends

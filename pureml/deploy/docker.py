@@ -111,8 +111,8 @@ def run_docker_container(image):
   return container
 
 
-def create(model_name, model_version, image_tag=None):
-  create_fastapi_file(model_name=model_name, model_version=model_version)
+def create(model_name, model_version, image_tag=None, predict_path=None, requirements_path=None):
+  create_fastapi_file(model_name=model_name, model_version=model_version, predict_path=predict_path, requirements_path=requirements_path)
 
   create_docker_file()
 
