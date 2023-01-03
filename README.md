@@ -19,7 +19,7 @@
 </div>
 
 
-# Quick Access
+# ⛳ Quick Access
 
 <p align="center">
   <a
@@ -86,6 +86,13 @@
   >
     <img alt="Coverage" src="https://img.shields.io/codecov/c/github/PureML-Inc/pureml">
   </a>
+  <a
+    href="https://pypi.org/project/pureml/"
+  >
+    <img alt="Coverage" src="https://img.shields.io/github/stars/pureml-inc/pureml?style=social">
+  </a>
+
+
 
 </div>
 
@@ -95,7 +102,7 @@
 
 
 
-# Intro
+# 💎 Intro
 
 PureML is an open-source version control for machine learning.
 
@@ -103,19 +110,17 @@ PureML is an open-source version control for machine learning.
 1. [How it works](#how-it-works)
 1. [Demo](#demo)
 1. [Main Features](#main-features)
-1. [Tutorials](#tutorials)
 1. [Core design principles](#core-design-principles)
 1. [Core abstractions](#core-abstractions)
 1. [Why to get involved](#why-to-get-involved)
+1. [Tutorials](#tutorials)
 
 <br />
 
-# Quick start
+# ⏱ Quick start
 
 You can install and run PureML using `pip`.
 
-
-### Using `pip`
 
 Install PureML
 ```bash
@@ -124,7 +129,7 @@ pip install pureml
 
 <br />
 
-# How it works
+# 📋 How it works
 Just add a few lines of code. You don't need to change the way you work.
 
 PureML is a Python library that uploads metadata to S3.
@@ -193,8 +198,9 @@ This is how generated data lineage will look like in the UI
   </a>
 </h1>
 
+For more detailed explanation, please visit our [Documentation](https://docs.pureml.com)
 
-# Demo
+# 💻 Demo
 
 ### Live demo
 
@@ -206,14 +212,6 @@ PureML quick start demo
 
 [![PureML Demo Video](https://github.com/PureML-Inc/PureML/blob/main/assets/demo_video_cover.png?raw=true)](https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc.)
 
-<!-- <iframe
-    width="640"
-    height="480"
-    src="https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc."
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen
-> -->
 
 
 <sub><i>Click the image to play video</i></sub>
@@ -221,7 +219,7 @@ PureML quick start demo
 <br />
 
 
-# [Main Features](https://docs.pureml.com/)
+# 📍 [Main Features](https://docs.pureml.com/)
 |   |   |
 | --- | --- |
 | Data Lineage | Automatic generation of data lineage|
@@ -234,20 +232,7 @@ PureML quick start demo
 <br />
 
 
-# Tutorials
-
-- [Registering Data lineage](https://docs.pureml.com/docs/data/register_data_pipeline)
-- [Registering models](https://docs.pureml.com/docs/models/register_models)
-- [Quick Start: Tabular](https://docs.pureml.com/docs/get-started/quickstart_tabular)
-- [Quick Start: Computer Vision](https://docs.pureml.com/docs/get-started/quickstart_cv)
-- [Quick Start: NLP](https://docs.pureml.com/docs/get-started/quickstart_nlp)
-- [Logging](https://docs.pureml.com/docs/log/overview)
-
-
-<br />
-
-
-# Core design principles
+# 🔮 Core design principles
 
 |   |   |
 | --- | --- |
@@ -261,7 +246,7 @@ PureML quick start demo
 
 <br />
 
-# Core abstractions
+# ⚙ Core abstractions
 
 These are the fundamental concepts that PureML uses to operate.
 
@@ -276,7 +261,7 @@ These are the fundamental concepts that PureML uses to operate.
 
 <br />
 
-# Why to get involved
+# 🤝 Why to get involved
 Version control is much more common in software than in machine learning. So why isn’t everyone using Git? Git doesn’t work well with machine learning. It can’t handle large files, it can’t handle key/value metadata like metrics, and it can’t record information automatically from inside a training script.
 
 GitHub wasn’t designed with data as a core project component. This along with a number of other differences between AI and more traditional software projects makes GitHub a bad fit for artificial intelligence, contributing to the reproducibility crisis in machine learning.
@@ -289,20 +274,45 @@ Lets build this together. If you have faced this issue or have worked out a simi
 
 <br />
 
-# Reporting Bugs
+
+# 🧮 Tutorials
+
+- [Registering Data lineage](https://docs.pureml.com/docs/data/register_data_pipeline)
+- [Registering models](https://docs.pureml.com/docs/models/register_models)
+- [Quick Start: Tabular](https://docs.pureml.com/docs/get-started/quickstart_tabular)
+- [Quick Start: Computer Vision](https://docs.pureml.com/docs/get-started/quickstart_cv)
+- [Quick Start: NLP](https://docs.pureml.com/docs/get-started/quickstart_nlp)
+- [Logging](https://docs.pureml.com/docs/log/overview)
+
+
+<br />
+
+# 🐞 Reporting Bugs
 To report any bugs you have faced while using PureML package, please
-1. report it in [Discord](https://discord.gg/xNUHt9yguJ) channel
+1. Report it in [Discord](https://discord.gg/xNUHt9yguJ) channel
 1. Open an [issue](https://github.com/PureML-Inc/PureML/issues)
 
 <br />
 
-# Contributing and developing
-Lets work together to improve the features for everyone. Work with mutual respect. Check our contributing guide for further details. 
+# ⌨ Contributing and Developing
+Lets work together to improve the features for everyone. For more details, please look at out [Contributing Guide](./CONTRIBUTING.md)
+
+Work with mutual respect.
 
 
 <br />
 
-# License
+# 👨‍👩‍👧‍👦 Community
+To get quick updates, feature release for PureML follow us on
+|   |
+| --- |
+| [<img alt="Twitter" height="20" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" />](https://twitter.com/getPureML) |
+[<img alt="LinkedIn" height="20" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/company/pureml-inc/) |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />](https://github.com/PureML-Inc/PureML) |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" />](https://discord.gg/DBvedzGu) |
+
+
+# 📄 License
 See the [Apache-2.0](./License) file for licensing information.
 
 
