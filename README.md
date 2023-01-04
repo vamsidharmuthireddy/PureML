@@ -223,8 +223,8 @@ PureML quick start demo
 |   |   |
 | --- | --- |
 | Data Lineage | Automatic generation of data lineage|
-| Dataset Versioning | Automatic Semantic Versioning of datasets |
-| Model Versioning | Automatic Semantic Versioning of models |
+| Dataset Versioning | Object-based Automatic Semantic Versioning of datasets |
+| Model Versioning | Object-based Automatic Semantic Versioning of models |
 | Comparision | Comparing different versions of models or datasets
 | Branches (*Coming Soon*) | Separation between experimentation and production ready models using branches |
 | Review (*Coming Soon*) | Review and approve models, and datasets to production ready branch|
@@ -237,7 +237,7 @@ PureML quick start demo
 |   |   |
 | --- | --- |
 | Easy developer experience | An intuitive open source package aimed to bridge the gaps in data science teams |
-| Engineering best practices built-in | Integrating PureML functionalities in your code doenot disrupt your workflow |
+| Engineering best practices built-in | Integrating PureML functionalities in your code doesnot disrupt your workflow |
 | Object Versioning | A reliable object versioning mechanism to track changes to your datasets, and models |
 | Data is a first-class citizen | Your data is secure. It will never leave your system. |
 | Reduce Friction | Have access to operations performed on data using data lineage without having to spend time on lengthy meetings |
