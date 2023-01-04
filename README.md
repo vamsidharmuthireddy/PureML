@@ -210,7 +210,7 @@ Build and run a PureML project to create data lineage and a model with our <b>[d
 ### Demo video (2 min)
 PureML quick start demo
 
-[![PureML Demo Video](https://github.com/PureML-Inc/PureML/blob/main/assets/demo_video_cover.png?raw=true)](https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc.)
+[![PureML Demo Video](https://img.youtube.com/vi/HdzLFEWS4s8/0.jpg)](https://www.youtube.com/watch?v=HdzLFEWS4s8 "PureML Demo Video")
 
 
 
