@@ -3,7 +3,7 @@
     <img
       align="center"
       alt="PureML"
-      src="https://github.com/PureML-Inc/PureML/blob/readme/assets/coverImg.jpeg"
+      src="https://github.com/PureML-Inc/PureML/blob/main/assets/coverImg.jpeg"
       style="width:100%;"
     />
   </a>
@@ -19,7 +19,7 @@
 </div>
 
 
-# Quick Access
+# ⛳ Quick Access
 
 <p align="center">
   <a
@@ -44,11 +44,7 @@
 
 </p>
 
-<!-- 
-<img
-  referrerpolicy="no-referrer-when-downgrade"
-  src="https://static.scarf.sh/a.png?x-pxid=b3c96d79-b8f0-414b-a687-8bfc164b4b7a"
-/> -->
+
 
 </br>
 </br>
@@ -90,6 +86,13 @@
   >
     <img alt="Coverage" src="https://img.shields.io/codecov/c/github/PureML-Inc/pureml">
   </a>
+  <a
+    href="https://pypi.org/project/pureml/"
+  >
+    <img alt="Coverage" src="https://img.shields.io/github/stars/pureml-inc/pureml?style=social">
+  </a>
+
+
 
 </div>
 
@@ -99,7 +102,7 @@
 
 
 
-# Intro
+# 💎 Intro
 
 PureML is an open-source version control for machine learning.
 
@@ -107,28 +110,26 @@ PureML is an open-source version control for machine learning.
 1. [How it works](#how-it-works)
 1. [Demo](#demo)
 1. [Main Features](#main-features)
-1. [Tutorials](#tutorials)
 1. [Core design principles](#core-design-principles)
 1. [Core abstractions](#core-abstractions)
 1. [Why to get involved](#why-to-get-involved)
+1. [Tutorials](#tutorials)
 
 <br />
 
-# Quick start
+# ⏱ Quick start
 
 You can install and run PureML using `pip`.
 
 
-### Using `pip`
-
-1. Install PureML
-    ```bash
-    pip install pureml
-    ```
+Install PureML
+```bash
+pip install pureml
+```
 
 <br />
 
-# How it works
+# 📋 How it works
 Just add a few lines of code. You don't need to change the way you work.
 
 PureML is a Python library that uploads metadata to S3.
@@ -191,14 +192,15 @@ This is how generated data lineage will look like in the UI
 <h1 align="center">
     <img
       align="center"
-      src="https://github.com/PureML-Inc/PureML/blob/readme/assets/pipeline.png?raw=true"
+      src="https://github.com/PureML-Inc/PureML/blob/main/assets/pipeline.png?raw=true"
       style="width:60%;"
     />
   </a>
 </h1>
 
+For more detailed explanation, please visit our [Documentation](https://docs.pureml.com)
 
-# Demo
+# 💻 Demo
 
 ### Live demo
 
@@ -208,29 +210,21 @@ Build and run a PureML project to create data lineage and a model with our <b>[d
 ### Demo video (2 min)
 PureML quick start demo
 
-[![PureML Demo Video](https://github.com/PureML-Inc/PureML/blob/readme/assets/demo_video_cover.png?raw=true)](https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc.)
+[![PureML Demo Video](https://img.youtube.com/vi/HdzLFEWS4s8/0.jpg)](https://www.youtube.com/watch?v=HdzLFEWS4s8 "PureML Demo Video")
 
-<!-- <iframe
-    width="640"
-    height="480"
-    src="https://www.youtube.com/watch?v=HdzLFEWS4s8&ab_channel=PureMLInc."
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen
-> -->
-</iframe>
+
 
 <sub><i>Click the image to play video</i></sub>
 
 <br />
 
 
-# [Main Features](https://docs.pureml.com/)
+# 📍 [Main Features](https://docs.pureml.com/)
 |   |   |
 | --- | --- |
 | Data Lineage | Automatic generation of data lineage|
-| Dataset Versioning | Automatic Semantic Versioning of datasets |
-| Model Versioning | Automatic Semantic Versioning of models |
+| Dataset Versioning | Object-based Automatic Semantic Versioning of datasets |
+| Model Versioning | Object-based Automatic Semantic Versioning of models |
 | Comparision | Comparing different versions of models or datasets
 | Branches (*Coming Soon*) | Separation between experimentation and production ready models using branches |
 | Review (*Coming Soon*) | Review and approve models, and datasets to production ready branch|
@@ -238,25 +232,12 @@ PureML quick start demo
 <br />
 
 
-# Tutorials
-
-- [Registering Data lineage](https://docs.pureml.com/docs/data/register_data_pipeline)
-- [Registering models](https://docs.pureml.com/docs/models/register_models)
-- [Quick Start: Tabular](https://docs.pureml.com/docs/get-started/quickstart_tabular)
-- [Quick Start: Computer Vision](https://docs.pureml.com/docs/get-started/quickstart_cv)
-- [Quick Start: NLP](https://docs.pureml.com/docs/get-started/quickstart_nlp)
-- [Logging](https://docs.pureml.com/docs/log/overview)
-
-
-<br />
-
-
-# Core design principles
+# 🔮 Core design principles
 
 |   |   |
 | --- | --- |
 | Easy developer experience | An intuitive open source package aimed to bridge the gaps in data science teams |
-| Engineering best practices built-in | Integrating PureML functionalities in your code doenot disrupt your workflow |
+| Engineering best practices built-in | Integrating PureML functionalities in your code doesnot disrupt your workflow |
 | Object Versioning | A reliable object versioning mechanism to track changes to your datasets, and models |
 | Data is a first-class citizen | Your data is secure. It will never leave your system. |
 | Reduce Friction | Have access to operations performed on data using data lineage without having to spend time on lengthy meetings |
@@ -265,7 +246,7 @@ PureML quick start demo
 
 <br />
 
-# Core abstractions
+# ⚙ Core abstractions
 
 These are the fundamental concepts that PureML uses to operate.
 
@@ -280,7 +261,7 @@ These are the fundamental concepts that PureML uses to operate.
 
 <br />
 
-# Why to get involved
+# 🤝 Why to get involved
 Version control is much more common in software than in machine learning. So why isn’t everyone using Git? Git doesn’t work well with machine learning. It can’t handle large files, it can’t handle key/value metadata like metrics, and it can’t record information automatically from inside a training script.
 
 GitHub wasn’t designed with data as a core project component. This along with a number of other differences between AI and more traditional software projects makes GitHub a bad fit for artificial intelligence, contributing to the reproducibility crisis in machine learning.
@@ -293,22 +274,45 @@ Lets build this together. If you have faced this issue or have worked out a simi
 
 <br />
 
-# Reporting Bugs
+
+# 🧮 Tutorials
+
+- [Registering Data lineage](https://docs.pureml.com/docs/data/register_data_pipeline)
+- [Registering models](https://docs.pureml.com/docs/models/register_models)
+- [Quick Start: Tabular](https://docs.pureml.com/docs/get-started/quickstart_tabular)
+- [Quick Start: Computer Vision](https://docs.pureml.com/docs/get-started/quickstart_cv)
+- [Quick Start: NLP](https://docs.pureml.com/docs/get-started/quickstart_nlp)
+- [Logging](https://docs.pureml.com/docs/log/overview)
+
+
+<br />
+
+# 🐞 Reporting Bugs
 To report any bugs you have faced while using PureML package, please
-1. report it in [Discord](https://discord.gg/xNUHt9yguJ) channel
+1. Report it in [Discord](https://discord.gg/xNUHt9yguJ) channel
 1. Open an [issue](https://github.com/PureML-Inc/PureML/issues)
 
 <br />
 
-# Contributing and developing
-Lets work together to improve the features for everyone. 
+# ⌨ Contributing and Developing
+Lets work together to improve the features for everyone. For more details, please look at out [Contributing Guide](./CONTRIBUTING.md)
 
 Work with mutual respect.
 
 
 <br />
 
-# License
+# 👨‍👩‍👧‍👦 Community
+To get quick updates, feature release for PureML follow us on
+|   |
+| --- |
+| [<img alt="Twitter" height="20" src="https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" />](https://twitter.com/getPureML) |
+[<img alt="LinkedIn" height="20" src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" />](https://www.linkedin.com/company/pureml-inc/) |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" />](https://github.com/PureML-Inc/PureML) |
+| [<img alt="GitHub" height="20" src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" />](https://discord.gg/DBvedzGu) |
+
+
+# 📄 License
 See the [Apache-2.0](./License) file for licensing information.
 
 
