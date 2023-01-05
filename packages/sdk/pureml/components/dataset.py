@@ -292,6 +292,8 @@ def fetch(name:str, version:str='latest'):
     # dataset_url = 'https://{}'.format(dataset_location)
 
     dataset_url = dataset_details['location']
+    dataset_url = dataset_url.replace('https://pureml-registry.67f23f4479798ac96c01212517a90146.r2.cloudflarestorage.com', 
+                                        'https://pub-072ac07f18cd4246bd5c879e7a9df94e.r2.dev')
 
 
     headers = {

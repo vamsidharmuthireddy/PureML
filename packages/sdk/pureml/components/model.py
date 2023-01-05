@@ -247,6 +247,10 @@ def fetch(name:str, version:str='latest'):
     # model_url = 'https://{}'.format(model_location)
     model_url = model_details['location']
     
+    model_url = model_url.replace('https://pureml-registry.67f23f4479798ac96c01212517a90146.r2.cloudflarestorage.com', 
+                                        'https://pub-072ac07f18cd4246bd5c879e7a9df94e.r2.dev')
+    # print(model_url)
+
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'Bearer {}'.format(user_token)
