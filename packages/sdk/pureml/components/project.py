@@ -30,9 +30,11 @@ def details(name: str=None, id:str = None):
     #If both project name and project id are given, preference will be given to project id
     if name is not None:
         url_path_1 = '{}/project/name/{}'.format(org_id, name)
-
-    if id is not None:
-        url_path_1 = '{}/project/id/{}'.format(org_id, id)
+    else:
+        if id is not None:
+            url_path_1 = '{}/project/id/{}'.format(org_id, id)
+        else:
+            return
 
     
     
@@ -102,35 +104,31 @@ def init(name:str, description:str=''):
 
         
     project_response = details(name=name)
-    
-    if project_response.status_code == 200:
-        print("[bold yellow] Connected to project.")
-        save_project(response = project_response)
-
+    if project_response is None:
+        print('Incorect Project Id or Name')
     else:
-        response = requests.post(url, data=data, headers=headers)
-
-        if response.status_code == 200:
-            print("[bold green] Initialized the project.")
-            save_project(response = response)
-        else:
-            # print(response.text)
-            print('[bold red] Unable to create Project')
-
-            if os.path.exists(PATH_USER_PROJECT_DIR):
-                shutil.rmtree(PATH_USER_PROJECT_DIR)
-                os.makedirs(PATH_USER_PROJECT_DIR, exist_ok=True)
-
-                config = load_config()
-
-
-    # return response.text
     
+        if project_response.status_code == 200:
+            print("[bold yellow] Connected to project.")
+            save_project(response = project_response)
+
+        else:
+            response = requests.post(url, data=data, headers=headers)
+
+            if response.status_code == 200:
+                print("[bold green] Initialized the project.")
+                save_project(response = response)
+            else:
+                # print(response.text)
+                print('[bold red] Unable to create Project')
+
+                if os.path.exists(PATH_USER_PROJECT_DIR):
+                    shutil.rmtree(PATH_USER_PROJECT_DIR)
+                    os.makedirs(PATH_USER_PROJECT_DIR, exist_ok=True)
+
+                    config = load_config()
 
 
-
-
-# @app.command()
 def delete(id:str):
     '''It deletes a project
     
@@ -172,15 +170,15 @@ def delete(id:str):
 
     reponse_details = details(id=id)
 
-    if reponse_details.status_code == 200:
-    
-        reponse_delete = delete_project(url=url, headers=headers)
-        
-        # return update_response
-    
+    if reponse_details is None:
+        print('Incorect Project Id or Name')
     else:
-        print(f"[bold red] Project doesnot exists!")
-        # return
+        if reponse_details.status_code == 200:        
+            reponse_delete = delete_project(url=url, headers=headers)
+        
+        else:
+            print(f"[bold red] Project doesnot exists!")
+            # return
 
 
 
